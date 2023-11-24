@@ -3,7 +3,7 @@ name: rill-flow
 version: 0.0.1
 description: rill flow orchestration engine
 keywords:
-  - rill
+  - rill flow
   - orchestration
 home: https://weibocom.github.io/rill-flow
 sources:
