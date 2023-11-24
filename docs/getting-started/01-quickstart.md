@@ -9,54 +9,76 @@ sidebar_position: 1
 首先，您需要安装好对应的依赖环境，以及工具：
 
 - OSX/Linux环境
-- [Docker](https://www.docker.com/) 
+- [Docker](https://www.docker.com/)
 - [MiniKube](https://minikube.sigs.k8s.io)
 - [Kubectl](https://kubernetes.io/zh-cn/docs/reference/kubectl/kubectl/)
 - [Helm](https://helm.sh)
 
-
 ### 在本机启动MiniKube
+
 - 启动Minikube
-```
+
+```shell
 minikube start --driver=docker --image-mirror-country=cn
 ```
 
 - 检查Minikube集群状态
 
-```
+```shell
 minikube status
 ```
 
 - 设置Kubectl上下文为Minikube集群
 
-```
+```shell
 kubectl config use-context minikube
 ```
 
 - 验证Kubernetes集群状态
 
-```
+```shell
 kubectl cluster-info
 ```
 
 - 打开Kubernetes仪表板
 
-```
+```shell
 minikube dashboard --url&
 ```
-
 
 ## 服务部署
 
 ```shell
 helm repo add rill-flow https://rill-flow.github.io/rill-flow-helm-chart
-helm install rill-flow rill-flow/rill-flow -n=rill-flow
+helm install rill-flow rill-flow/rill-flow -n=rill-flow --create-namespace
 ```
+
+## 验证安装
+
+要查看 Rill Flow 的运行情况，请执行以下命令：
+
+```shell
+kubectl get po -n rill-flow
+```
+
+以下是预期输出：
+
+```txt
+NAME                              READY   STATUS    RESTARTS   AGE
+rill-flow-55b9c59f66-ngrl6        1/1     Running   0          40m
+rill-flow-cassandra-0             1/1     Running   0          40m
+rill-flow-cassandra-1             1/1     Running   0          37m
+rill-flow-cassandra-2             1/1     Running   0          34m
+rill-flow-jaeger-df446445-457l5   1/1     Running   0          40m
+rill-flow-redis-master-0          1/1     Running   0          39m
+rill-flow-ui-686b7b98b7-cvnqz     1/1     Running   0          40m
+```
+
+如果你的实际输出与预期输出相符，表示 Rill Flow 已经成功安装。
 
 ## 访问Rill Flow 管理后台
 
 Rill Flow 的快速部署是基于 Kubernetes 的，因此需要通过 Kubernetes 的端口转发功能，将服务暴露到本地，才能通过本机 IP:端口 访问到 Rill Flow 管理后台、后端API接口以及trace 链路查询接口。
-
 
 ```shell
 kubectl -n rill-flow --address 0.0.0.0 port-forward svc/rill-flow-service 8080:8080&
@@ -122,6 +144,7 @@ http://127.0.0.1:9080/#/flow-instance/list
 ![示意图](assets/flow_sample.jpg)
 
 > 更多关于查看结果的说明可以参考[执行状态](../user-guide/04-execution/03-status.md)
+
 ## 接下来
 
 - 查看[架构介绍](../user-guide/01-arch.md)
