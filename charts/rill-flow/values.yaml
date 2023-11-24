@@ -26,4 +26,5 @@ rill_flow:
     rill_flow_trace_exporter_port: "16686"
     OTEL_EXPORTER_OTLP_ENDPOINT: "http://rill-flow-jaeger-collector.rill-flow:4317"
     rill_flow_dag_redo_url: "http://rill-flow-service.rill-flow:8080/flow/redo.json"
+    rill_flow_callback_url: "http://rill-flow-service.rill-flow:8080/flow/finish.json"
     BACKEND_SERVER: "http://rill-flow-service.rill-flow:8080"
