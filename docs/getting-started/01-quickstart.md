@@ -49,7 +49,8 @@ minikube dashboard --url&
 ## 服务部署
 
 ```shell
-helm install -n rill-flow rill-flow https://weibocom.github.io/rill-flow-helm-chart 
+helm repo add rill-flow https://rill-flow.github.io/rill-flow-helm-chart
+helm install -n rill-flow rill-flow/rill-flow
 ```
 
 ## 访问Rill Flow 管理后台
