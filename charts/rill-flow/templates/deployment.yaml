@@ -1,0 +1,41 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: rill-flow
+  namespace: {{ .Release.Namespace }}
+  labels:
+    rill-flow: rill-flow
+spec:
+  selector:
+    matchLabels:
+      rill-flow: rill-flow
+  template:
+    metadata:
+      labels:
+        rill-flow: rill-flow
+    spec:
+      containers:
+        - name: rill-flow-backend
+          image: 'weibocom/rill-flow:0.0.1'
+          imagePullPolicy: IfNotPresent
+          ports:
+            - hostPort: 8080
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: rill_flow_descriptor_redis_host
+              value: {{ .Values.rill_flow.env.rill_flow_descriptor_redis_host }}
+            - name: rill_flow_default_redis_host
+              value: {{ .Values.rill_flow.env.rill_flow_default_redis_host }}
+            - name: rill_flow_trace_exporter_ip
+              value: {{ .Values.rill_flow.env.rill_flow_trace_exporter_ip }}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: {{ .Values.rill_flow.env.OTEL_EXPORTER_OTLP_ENDPOINT }}
+            - name: rill_flow_dag_redo_url
+              value: {{ .Values.rill_flow.env.rill_flow_dag_redo_url }}        
+        
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+---

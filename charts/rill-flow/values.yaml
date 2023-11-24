@@ -1,0 +1,29 @@
+redis:
+  architecture: standalone
+  enabled: true 
+  auth:
+    enabled: false
+jaeger:
+  architecture: standalone
+  enabled: true
+  allInOne:
+    enabled: true
+  query:
+    enabled: false
+  agent:
+    enabled: false
+  collector:
+    enabled: false
+  cassandra:
+    enabled: false 
+rill_flow:
+  env:
+    rill_flow_descriptor_redis_host: rill-flow-redis-master.rill-flow
+    rill_flow_descriptor_redis_port: "6379" 
+    rill_flow_default_redis_host: rill-flow-redis-master.rill-flow
+    rill_flow_default_redis_port: "6379"
+    rill_flow_trace_exporter_ip: "127.0.0.1"
+    rill_flow_trace_exporter_port: "16686"
+    OTEL_EXPORTER_OTLP_ENDPOINT: "http://rill-flow-jaeger-collector.rill-flow:4317"
+    rill_flow_dag_redo_url: "http://rill-flow-service.rill-flow:8080/flow/redo.json"
+    BACKEND_SERVER: "http://rill-flow-service.rill-flow:8080"

@@ -1,0 +1,12 @@
+dependencies:
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  version: 2.13.3
+- name: jaeger
+  repository: https://jaegertracing.github.io/helm-charts/
+  version: 0.72.1
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 18.3.3
+digest: sha256:cb0f606cf262f8c5a9c25e0bb7056e5d3cd86d6aacecf35db5a74164a27a1bb6
+generated: "2023-11-22T15:23:50.582302+08:00"

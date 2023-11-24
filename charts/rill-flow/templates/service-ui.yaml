@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: rill-flow-ui-service
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    rill-flow-ui: rill-flow-ui
+  ports:
+    - name: frontend-port
+      port: 9080
+      targetPort: 9080
+      protocol: TCP

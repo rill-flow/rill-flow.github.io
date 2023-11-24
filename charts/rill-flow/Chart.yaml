@@ -1,0 +1,41 @@
+apiVersion: v2
+name: rill-flow
+version: 0.0.1
+description: rill flow orchestration engine
+keywords:
+  - rill
+  - orchestration
+home: https://weibocom.github.io/rill-flow
+sources:
+  - https://github.io/weibocom/rill-flow
+maintainers: 
+  - name: axb
+    url: https://github.com/qdaxb
+dependencies:
+  - name: common
+    version: 2.13.3
+    repository: https://charts.bitnami.com/bitnami
+  - name: jaeger
+    version: 0.72.1
+    repository: https://jaegertracing.github.io/helm-charts/
+    condition: jaeger.enabled
+    import-values:
+      - child: jaeger.allInOne
+        parent: allInOne
+      - child: jaeger.query
+        parent: query
+      - child: jaeger.agent
+        parent: agent
+      - child: jaeger.collector
+        parent: collector
+      - child: jaeger.cassandra
+        parent: cassandra
+  - name: redis
+    version: 18.3.3
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
+    import-values:
+      - child: redis.auth
+        parent: auth
+      - child: redis.commonLabels
+        parent: commonLabels

@@ -1,0 +1,33 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: rill-flow-ui
+  namespace: {{ .Release.Namespace }}
+  labels:
+    rill-flow-ui: rill-flow-ui
+spec:
+  selector:
+    matchLabels:
+      rill-flow-ui: rill-flow-ui
+  template:
+    metadata:
+      labels:
+        rill-flow-ui: rill-flow-ui
+    spec:
+      containers:
+        - name: rill-flow-ui
+          image: 'weibocom/rill-flow-ui:0.0.1'
+          imagePullPolicy: IfNotPresent
+          ports:
+            - hostPort: 9080
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: BACKEND_SERVER
+              value: {{ .Values.rill_flow.env.BACKEND_SERVER }}
+        
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+---
