@@ -44,7 +44,7 @@ const config: Config = {
                            return `https://crowdin.com/project/rill-flow/${locale}`;
                          }
                          // Link to GitHub for English docs
-                         return `https://github.com/weibocom/rill-flow.github.io/edit/main/docs/${docPath}`;
+                         return `https://github.com/rill-flow/rill-flow.github.io/edit/main/docs/${docPath}`;
                     } ,
                 },
                 theme: {
