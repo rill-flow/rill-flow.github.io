@@ -3,6 +3,12 @@ name: Crowdin Action
 on:
   push:
     branches: [main]
+  repository_dispatch:
+    types: crowdin-sync
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -18,9 +24,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Crowdin Sync
-        run: yran run crowdin:sync
+        run: yarn run crowdin:sync
         env:
-          CROWDIN_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN}}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN}}
       - name: Build website
         run: yarn build
 
@@ -32,3 +38,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Build output to publish to the `gh-pages` branch:
           publish_dir: ./build
+          force_orphan: true

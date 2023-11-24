@@ -22,5 +22,5 @@ Rill Flow的主要优势有：
 - AIGC: 支持LLM快速集成
 
 ## 接下来
-* 参考[快速上手](/docs/getting-started/01-quickstart.md)
-* 查看[架构介绍](/docs/user-guide/01-arch.md)
+* 参考[快速上手](./getting-started/01-quickstart.md)
+* 查看[架构介绍](./user-guide/01-arch.md)

@@ -106,7 +106,7 @@ tasks:
 curl -XPOST 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=rillFlowSimpleTest:greet'  -d '{"Bob":"Hello, I am Bob!", "Alice": "Hi, I am Alice"}' -H 'Content-Type:application/json'
 ```
 
-> 更多流程示例请参考[流程示例](/docs/getting-started/02-sample.md)
+> 更多流程示例请参考[流程示例](02-sample.md)
 
 ## 查看结果
 
@@ -120,7 +120,7 @@ http://127.0.0.1:9080/#/flow-instance/list
 
 ![示意图](assets/flow_sample.jpg)
 
-> 更多关于查看结果的说明可以参考[执行状态](/docs/user-guide/04-execution/03-status.md)
+> 更多关于查看结果的说明可以参考[执行状态](../user-guide/04-execution/03-status.md)
 ## 接下来
 
-- 查看[架构介绍](/docs/user-guide/01-arch.md)
+- 查看[架构介绍](../user-guide/01-arch.md)

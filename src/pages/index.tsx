@@ -21,11 +21,11 @@ function HomepageHeader() {
                             alt="mockup" className={''}/>
                         <h1 className={"py-5 max-w-2xl mb-4 text-4xl font-extrabold tracking-tight md:text-6xl xl:text-7xl dark:text-white"}>Rill
                             Flow</h1>
-                        <p className={"pb-0 max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-2xl lg:text-2xl dark:text-gray-400"}><Translate>theme.homepage.desc</Translate></p>
+                        <p className={"pb-0 max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-2xl lg:text-2xl dark:text-gray-400"}><Translate>面向云原生场景的分布式、高性能流程编排引擎</Translate></p>
                         <div>
                             <a href={"docs/getting-started/quickstart"}
                                className={"inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"}>
-                                <Translate>Get started</Translate>
+                                <Translate>快速开始</Translate>
                                 <svg className="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"

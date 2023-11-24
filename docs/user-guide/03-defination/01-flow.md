@@ -63,7 +63,7 @@ tasks:
 ## 提交工作流定义
 
 ### API
-参考[/flow/bg/manage/descriptor](/docs/user-guide/07-api.md#创建工作流)
+参考[/flow/bg/manage/descriptor](../07-api.md#创建工作流)
 
 ### 管理后台
 //TODO
@@ -74,9 +74,9 @@ tasks:
 
 在分布式部署环境下，工作流实例的每一步都有可能运行在不同节点上，最终，当工作流实例执行完成后，系统会回收相关的资源。
 
-> 有关工作流执行的更多信息，可以参考[提交工作流](/docs/user-guide/04-execution/01-execute.md)
+> 有关工作流执行的更多信息，可以参考[提交工作流](../04-execution/01-execute.md)
 
 你也可以
 
-* 了解[任务节点与执行器](/docs/user-guide/03-defination/02-task-and-dispatcher.md)
-* 了解[上下文与参数映射](/docs/user-guide/03-defination/04-context-and-mapping.md)
+* 了解[任务节点与执行器](../03-defination/02-task-and-dispatcher.md)
+* 了解[上下文与参数映射](../03-defination/04-context-and-mapping.md)

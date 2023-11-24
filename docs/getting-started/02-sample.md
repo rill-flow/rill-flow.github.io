@@ -79,7 +79,7 @@ curl --location 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=$descripto
 ```
 
 #### 查看运行结果
-- 打开 Rill Flow [管理后台](127.0.0.1:8080/)查看任务执行详情
+- 打开 Rill Flow [管理后台](http://127.0.0.1:8080/)查看任务执行详情
 
 ### 2. foreach 逻辑节点示例
 
@@ -150,7 +150,7 @@ curl --location 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=$descripto
 ```
 
 #### 查看运行结果
-- 打开 Rill Flow [管理后台](127.0.0.1:8080/)查看任务执行详情
+- 打开 Rill Flow [管理后台](http://127.0.0.1:8080/)查看任务执行详情
 
 ### 3. pass 逻辑节点示例
 
@@ -188,7 +188,7 @@ curl --location 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=$descripto
 }'
 ```
 #### 查看运行结果
-- 打开 Rill Flow [管理后台](127.0.0.1:8080/)查看任务执行详情
+- 打开 Rill Flow [管理后台](http://127.0.0.1:8080/)查看任务执行详情
 
 ### 4. return 逻辑节点示例 
 
@@ -239,7 +239,7 @@ curl --location 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=$descripto
 ```
 
 #### 查看运行结果
-- 打开 Rill Flow [管理后台](127.0.0.1:8080/)查看任务执行详情
+- 打开 Rill Flow [管理后台](http://127.0.0.1:8080/)查看任务执行详情
 
 ### 5. suspense 逻辑节点示例
 #### suspense.yaml图示例
@@ -294,7 +294,7 @@ curl --location 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=$descripto
 ```
 
 #### 查看运行结果
-- 打开 Rill Flow [管理后台](127.0.0.1:8080/)查看任务执行详情
+- 打开 Rill Flow [管理后台](http://127.0.0.1:8080/)查看任务执行详情
 
 ### 6. 子图节点示例
 
@@ -333,7 +333,7 @@ curl --location 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=$descripto
 ```
 
 #### 查看运行结果
-- 打开 Rill Flow [管理后台](127.0.0.1:8080/)查看任务执行详情
+- 打开 Rill Flow [管理后台](http://127.0.0.1:8080/)查看任务执行详情
 
 ### 7. 资源灰度管理示例
 
@@ -380,7 +380,7 @@ curl --location 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=$descripto
 ```
 
 #### 查看运行结果
-- 打开 Rill Flow [管理后台](127.0.0.1:8080/)查看任务执行详情
+- 打开 Rill Flow [管理后台](http://127.0.0.1:8080/)查看任务执行详情
 
 ### 8. aviator表达式示例
 
@@ -429,7 +429,7 @@ curl --location 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=$descripto
 ```
 
 #### 查看运行结果
-- 打开 Rill Flow [管理后台](127.0.0.1:8080/)查看任务执行详情
+- 打开 Rill Flow [管理后台](http://127.0.0.1:8080/)查看任务执行详情
 
 #### 注：参考资料 [aviator表达式](https://code.google.com/archive/p/aviator/)
 
@@ -507,7 +507,7 @@ curl --location 'http://127.0.0.1:8080/flow/bg/add_descriptor.json' \
 --data $aliyun_ai.yaml
 ```
 
-> 更多关于YAML定义的介绍，请参考[工作流定义](/docs/user-guide/03-defination/01-flow.md)
+> 更多关于YAML定义的介绍，请参考[工作流定义](../user-guide/03-defination/01-flow.md)
 
 ### Step 3: 提交流程图执行任务
 - 提交流程图执行任务：
@@ -516,4 +516,4 @@ curl -XPOST 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=rillFlowAliyun
 -d '{"openai_message":"'你是谁?'"}' 
 -H'Content-Type:application/json'
 ```
-> 更多关于流程图执行的介绍，请参考[工作流执行](/docs/user-guide/04-execution/01-execute.md)
+> 更多关于流程图执行的介绍，请参考[工作流执行](../user-guide/04-execution/01-execute.md)

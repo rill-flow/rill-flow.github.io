@@ -47,7 +47,7 @@ sidebar_position: 2
   - `paas`：空 task，当执行到 paas 任务时，任务直接被设置为成功。
   - `return`：是否跳过后续节点，当执行到 return 任务时，会根据 context 信息执行判断逻辑，若果判断逻辑执行为
       true，则跳过后续所有节点，否则继续执行。
-  > 更多关于流程控制的介绍，请参考[流程控制](/docs/user-guide/03-defination/05-control.md)
+  > 更多关于流程控制的介绍，请参考[流程控制](../03-defination/05-control.md)
 
 ### pattern
 

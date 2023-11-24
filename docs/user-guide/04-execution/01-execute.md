@@ -13,7 +13,7 @@ sidebar_position: 1
 在Rill Flow中，工作流的执行是异步的，系统会为运行中的每个工作流分配一个`execution_id`，用户可以通过该ID查询工作流的运行状态，并在执行完成后获取结果。
 
 ## 接口
-通过[/flow/submit.json](/docs/user-guide/07-api.md#执行工作流)接口提交一个任务。
+通过[/flow/submit.json](../07-api.md#执行工作流)接口提交一个任务。
 
 ## 触发器
 
