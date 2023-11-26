@@ -20,7 +20,6 @@ sidebar_position: 3
 NOT_STARTED("not_started"),
 
 - RUNNING: 执行中
-- KEY_SUCCEED: 关键路径完成
 - SUCCEED: 执行成功
 - FAILED: 执行失败
 
