@@ -20,14 +20,14 @@ Rill Flow 及插件都运行在 jdk 17 版本下，因此，插件同样需要�
 ```
 
 ## 代码
-然后在插件项目中创建插件类，并实现TaskExtension接口：
+然后在插件项目中创建插件类，并实现DispatcherExtension接口：
 
 ```java
 import org.pf4j.Extension;
-import com.rill.flow.interfaces.dispatcher.TaskExtension;
+import com.rill.flow.interfaces.dispatcher.DispatcherExtension;
 
 @Extension
-public class UserDefineTaskExtension implements TaskExtension {
+public class UserDefineDispatcherExtension implements DispatcherExtension {
     @Override
     public String handle(Resource resource, DispatchInfo dispatchInfo) {
         return null;

@@ -4,10 +4,10 @@ sidebar_position: 3
 
 # 扩展点
 
-TaskExtension是插件的扩展点接口，它继承了PF4J的ExtensionPoint接口：
+`DispatcherExtension`是插件的扩展点接口，它继承了PF4J的ExtensionPoint接口：
 
 ```java
-public interface TaskExtension extends ExtensionPoint {
+public interface DispatcherExtension extends ExtensionPoint {
     String handle(Resource resource, DispatchInfo dispatchInfo);
 
     String getName();
@@ -26,7 +26,7 @@ getName() 方法用来返回插件的名称，它同时将定义该插件适配�
 
 #### handle()
 
-handle() 方法即任务处理方法，它是任务扩展插件的核心，当适配该执行器的任务被Rill Flow分发时，Rill Flow会调用对应执行器的handle()方法来完成该任务的处理。
+handle() 方法即任务处理方法，它是任务处理扩展插件的核心，当适配该执行器的任务被Rill Flow分发时，Rill Flow会调用对应执行器的handle()方法来完成该任务的处理。
 
 handle()方法共包含两个参数：
 

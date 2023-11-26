@@ -22,7 +22,7 @@ sidebar_position: 2
 | category          | true  | string  | 任务分类，详细信息请参考[category](#category)                                                                  |
 | pattern           | true  | string  | 任务执行模式，可选同步模式（task_sync）或异步模式（task_async）                                                          |
 | resourceProtocol  | false | string  | 派发器资源协议，用来匹配对应的派发器，如为空，则使用resourceName中解析出的protocol作为资源协议。注意 resourceProtocol 和 resourceName 不同时为空 |
-| resourceName      | false | string  | 派发器资源描述符，值为scheme(protocol://URI)，参考[派发器](#派发器)                                                    |
+| resourceName      | false | string  | 资源描述符，参考[派发器](#派发器)                                                                                |
 | next              | false | string  | 后继任务名称                                                                                             |
 | inputMappings     | false | map     | 输入映射，详细信息请参考[参数映射](context-and-mapping)                                                            |
 | parameters        | false | map     | 非必须，该任务input的默认值，当`inputMapping`与`parameters`同时定义了同一个key时，以`inputMappings`为准                       |
@@ -72,8 +72,7 @@ sidebar_position: 2
 
 ### resourceName
 
-任务通过`resourceName`属性，使用[统一资源定位符](https://zh.wikipedia.org/zh-hans/统一资源定位符)
-的简化格式描述一个派发器和执行器，通常会是以下格式：
+任务通过`resourceName`属性，使用[统一资源定位符](https://zh.wikipedia.org/zh-hans/统一资源定位符) 的简化格式描述一个派发器和执行器，通常会是以下格式：
 
 ```
 [协议类型]://[服务器地址]:[端口号]/[资源层级UNIX文件路径][文件名]?[查询]#[片段ID]
@@ -95,21 +94,20 @@ Rill Flow 支持通过 HTTP 派发器对任务信息进行转发，发起HTTP请
 
 ##### 任务属性
 
-  | 参数               | 参数值                                | 说明                             |
-                    |------------------|------------------------------------|--------------------------------|
-  | resourceProtocol | http                               | -                              |
-  | resourceName     | http://www.sample.com/execute.json | 填写 http URL                    |
-  | pattern          | task_sync                          | 可选同步（task_sync）或异步（task_async） |
-  | requestType      | get/post                           | http请求类型，默认为post               |
+| 参数               | 参数值                                | 说明                             |
+|------------------|------------------------------------|--------------------------------|
+| resourceProtocol | http                               | 可选http/https                   |
+| resourceName     | http://www.sample.com/execute.json | 填写 http URL                    |
+| pattern          | task_sync                          | 可选同步（task_sync）或异步（task_async） |
+| requestType      | get/post                           | http请求类型，默认为post               |
 
 ##### input参数
 
-  | key              | value类型 | 说明                                                                                 |
-                  |------------------|---------|------------------------------------------------------------------------------------|
-  | query_params_*   | map     | get请求参数，input中key前缀为`query_params_`对应的值需要是map类型，所有key/value将会以key=value的形式拼接至请求url |
-  | request_header_* | map     | 请求header，input中key前缀为`request_header_`对应的值需要是map类型，所有key/value将会放入请求header         |
-  | 其余key            | string  | post body参数，目前body请求体类型只支持json，input中的其余key/value将会放入post body的json结构下             |
-
+| key              | value类型 | 说明                                                                                 |
+|------------------|---------|------------------------------------------------------------------------------------|
+| query_params_*   | map     | get请求参数，input中key前缀为`query_params_`对应的值需要是map类型，所有key/value将会以key=value的形式拼接至请求url |
+| request_header_* | map     | 请求header，input中key前缀为`request_header_`对应的值需要是map类型，所有key/value将会放入请求header         |
+| 其余key            | string  | post body参数，目前body请求体类型只支持json，input中的其余key/value将会放入post body的json结构下             |
 
 ##### output参数
 
@@ -129,23 +127,22 @@ Rill Flow 支持阿里云[灵积模型服务](https://help.aliyun.com/zh/dashsco
 
 ##### 任务属性
 
-  | 参数 | 参数值                 | 说明           |
-    | --- |---------------------|--------------|
-  | resourceProtocol | aliyun_ai           | -            |
+| 参数               | 参数值       | 说明 |
+    |------------------|-----------|----|
+| resourceProtocol | aliyun_ai | -  |
 
 ##### input参数
 
-  | key            | value类型 | 说明                                                                                          |
-    |----------------|---------|---------------------------------------------------------------------------------------------|
-  | apikey         | string  | api_key                                                                                     |
-  | model          | string  | 模型名称，详情参考阿里云[支持的模型列表](https://help.aliyun.com/zh/dashscope/developer-reference/token-api) |
-  | message        | string  | 请求模型的文本内容                                                                                   |
-  | message_suffix | string  | （可选）请求模型的内容前缀                                                                               |
-  | message_prefix | string  | （可选）请求模型的内容后缀                                                                               |
-
+| key            | value类型 | 说明                                                                                        |
+    |----------------|---------|-------------------------------------------------------------------------------------------|
+| apikey         | string  | api_key                                                                                   |
+| model          | string  | 模型名称，详情参考阿里云[支持的模型列表](https://help.aliyun.com/zh/dashscope/developer-reference/token-api) |
+| message        | string  | 请求模型的文本内容                                                                                 |
+| message_suffix | string  | （可选）请求模型的内容前缀                                                                             |
+| message_prefix | string  | （可选）请求模型的内容后缀                                                                             |
 
 ##### output参数
 
-阿里云请求返回的`json`结构体被会被赋值给`$.output`变量，`$.output.output.text`为模型的文本返回，其他返回值参考[阿里云SDK文档](https://help.aliyun.com/zh/dashscope/developer-reference/token-api)。
+阿里云请求返回的`json`结构体被会被赋值给`$.output`变量，其中，`$.output.output.text`为模型的文本返回，其他返回值参考[阿里云SDK文档](https://help.aliyun.com/zh/dashscope/developer-reference/token-api)。
 
 
