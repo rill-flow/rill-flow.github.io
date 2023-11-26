@@ -1,5 +1,11 @@
-# Website
+# Rill Flow Document Repository
 
+This is the document repository of [Rill Flow](https://weibocom.github.com/rill-flow) with multi versions.
+
+* [中文](https://rill-flow.github.io)
+* [English](https://rill-flow.github.io/en/)
+
+## Development
 This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
 
 ### Installation
@@ -24,18 +30,6 @@ $ yarn build
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
-### Deployment
+## Contribute
 
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+[Contribute to Rill Flow](https://rill-flow.github.io/docs/develop/document).
