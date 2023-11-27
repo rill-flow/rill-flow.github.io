@@ -94,7 +94,7 @@ HTTP 派发器用于转发任务信息，发起 HTTP 请求时使用 `applicatio
 | 参数               | 参数值                                | 说明                                        |
 |------------------|------------------------------------|-------------------------------------------|
 | resourceProtocol | http/https                          | 指定协议类型                                   |
-| resourceName     | <http://www.sample.com/execute.json> | HTTP URL                                    |
+| resourceName     | http://www.sample.com/execute.json | HTTP URL                                    |
 | pattern          | task_sync/task_async               | 指定任务执行模式，同步（task_sync）或异步（task_async） |
 | requestType      | get/post                           | HTTP 请求类型，默认为 post                      |
 
