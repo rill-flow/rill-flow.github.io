@@ -4,20 +4,15 @@ sidebar_position: 5
 
 # 流程控制
 
-Rill Flow支持在流程运行过程中动态的控制流程运行路径（类似于代码中的控制语句）
+Rill Flow 支持在流程运行过程中动态控制流程运行路径，类似于编程中的控制语句。
 
 ## 流程控制节点
 
-流程控制节点包含以下类型：
-
-- choice
-- foreach
-- pass
-- return
+流程控制节点包括以下几种类型：
 
 ### choice
 
-用来在 DAG 图运行时在多个子任务中选择某个子任务来执行。`tasks`字段定义了子任务组，`condition`的内容通过JsonPath的格式定义了该组子任务是否执行的条件。
+`choice` 节点用于在 DAG 图运行时，在多个子任务中根据条件选择执行特定的子任务。它通过 `tasks` 字段定义子任务组，`condition` 字段则使用 JsonPath 格式定义执行该组子任务的条件。
 
 ```yaml
 category: choice
@@ -60,11 +55,9 @@ next: C
 
 ### foreach
 
-用来将一组子任务循环多次执行。
+`foreach` 节点用于循环执行一组子任务。`tasks` 字段定义了待执行的任务列表，通过可选的 `synchronization` 字段从任务列表中筛选出需执行的任务，并根据 `synchronization` 中定义的最大并发数进行并行执行。
 
-`tasks`字段定义了若干任务构成的待执行任务列表，通过`synchronization`（非必须）定义的条件在待执行任务列表中少选出需要执行的任务，按照`synchronization`（非必须）中定义的最大并发数并发执行。
-
-循环执行的参数通过`iterationMapping`设置，`iterationMapping.collection`通过JsonPath格式定义了待循环集合，`item`定义了当前循环的元素名称，通过`iterationMapping`的定义，实现了子task中参数映射对应参数的获取，关于参数映射，可以参看：[参数映射](04-context-and-mapping.md)
+循环执行的参数通过 `iterationMapping` 设置。其中 `iterationMapping.collection` 使用 JsonPath 格式定义了待循环的集合，`item` 定义了当前循环的元素名称。通过 `iterationMapping` 的定义，子任务中的参数映射可以获取对应的参数值。有关参数映射的更多信息，请参见：[参数映射](04-context-and-mapping.md)。
 
 ```yaml
 category: foreach
@@ -106,9 +99,11 @@ tasks:
           source: $.output.gopUrl
 next: C
 ```
+
 ### paas
 
-空 task，当执行到 pass 任务时，任务直接被设置为成功。
+`pass` 是一个空任务。当执行到 `pass` 任务时，该任务会直接被设置为成功。
+
 ```yaml
 category: pass
 name: A
@@ -120,9 +115,11 @@ outputMappings:
     source: $.context.text
 next: B,C
 ```
+
 ### return
 
-是否跳过后续节点，当执行到 return 任务时，会根据 context 信息执行判断逻辑，检查conditions条件，若果判断逻辑执行为true，则跳过后续所有节点，否则继续执行。
+`return` 用于决定是否跳过后续节点。当执行到 `return` 任务时，会根据上下文（context）信息判断 `conditions` 条件，如果条件判断为真，则跳过后续所有节点，否则继续执行。
+
 ```yaml
 category: return
 name: A
