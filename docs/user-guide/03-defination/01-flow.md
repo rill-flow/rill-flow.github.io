@@ -63,7 +63,7 @@ tasks:
 
 ### API
 
-参考 \[/flow/bg/manage/descriptor]\(../07-api.md#Create workflow)
+参考[/flow/bg/manage/descriptor](../07-api.md#创建工作流)
 
 ### 管理后台
 
