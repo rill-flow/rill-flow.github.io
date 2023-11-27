@@ -6,7 +6,7 @@ sidebar_position: 2
 
 ## 概述
 
-触发器用于支持外部事件触发 DAG 图执行，进而提交工作流。关于提交工作流的基本信息，请参考：[提交工作流](01-execute.md)。
+触发器是用来支持外部事件触发 DAG 图执行，从而提交工作流的工具。对于提交工作流的基本信息，可以参考：[提交工作流](01-execute.md)
 
 Rill Flow 支持以下类型的触发器：
 
@@ -56,12 +56,13 @@ Rill Flow 监听本地 9092 端口启动的 Kafka 服务，并监听名为 `subm
 以下是消息内容的示例：
 
 ```json
-{"descriptor_id":"rillflowTest:kafkaTriggerTest","data":{},"callback":{},"uid":1234567}
+{"descriptor_id":"rillflowTest:kafkaTriggerTest","data":{},"callback":{},"uid":1234567,"resource_check":{"check_type":"skip"}}
 ```
 
 参数具体含义如下：
 
-- `descriptor_id`：需要触发执行的 DAG 图 ID。
-- `data`：工作流执行的全局上下文。
-- `uid`：可选参数，发起本次执行的用户 UID。
-- `callback`：可选参数，用于定义工作流执行后的通知任务，详情见：[提交工作流](01-execute.md)。
+- descriptor_id：触发执行的DAG图id
+- data：工作流执行的全局上下文
+- uid：可选参数，发起本次执行的用户uid
+- callback：可选参数，用来定义工作流执行后的通知任务，参考：[提交工作流](01-execute.md)
+- resource_check：可选参数，用来定义限流策略，参考：[过载保护](04-overflow.md)
