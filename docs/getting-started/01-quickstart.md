@@ -84,7 +84,7 @@ Rill Flow 的快速部署是基于本地 Kubernetes 的，因此需要通过 Kub
 
 ```shell
 kubectl -n rill-flow --address 0.0.0.0 port-forward svc/rill-flow-service 8080:8080&
-kubectl -n rill-flow --address 0.0.0.0 port-forward deployment/rill-flow-ui 9080:9080&
+kubectl -n rill-flow --address 0.0.0.0 port-forward deployment/rill-flow-ui 9080:80&
 kubectl -n rill-flow --address 0.0.0.0 port-forward svc/rill-flow-jaeger-query 16686:16686&
 ```
 
