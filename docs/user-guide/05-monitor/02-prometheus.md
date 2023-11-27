@@ -2,16 +2,26 @@
 sidebar_position: 2
 ---
 
-# Prometheus
+# Prometheus 监控集成
+
 ## 概述
-Rill Flow作为一个功能强大的工作流引擎服务，除了提供高效的工作流处理能力外，还具备系统监控的重要功能。这些监控能力是通过集成[Prometheus](https://prometheus.io/)组件来实现，从而能够轻松地配置和定制系统监控，并通过可视化功能监控Rill Flow工作流引擎的状态和性能。
+
+Rill Flow 作为一个功能强大的工作流引擎服务，不仅提供高效的工作流处理能力，还具备系统监控的重要功能。这一监控功能是通过集成 [Prometheus](https://prometheus.io/) 组件实现的，使得系统监控的配置和定制变得简单，并能通过可视化功能监控 Rill Flow 工作流引擎的状态和性能。
+
 ## 指标路径
-- 项目已默认集成Prometheus，查看监控指标收集数据
+
+Rill Flow 项目已默认集成 Prometheus。要查看监控指标收集数据，可以使用以下命令：
+
 ```cURL
 http://127.0.0.1:8080/actuator/prometheus
 ```
+
 ## 监控指南
-### 自定义配置prometheus.yml文件：
+
+### 自定义配置 Prometheus.yml 文件
+
+示例配置文件：
+
 ```yml
 global:
   scrape_interval: 15s
@@ -22,37 +32,61 @@ scrape_configs:
     static_configs:
       - targets: ['host.docker.internal:8080']
 ```
-- global：全局配置部分，用于定义全局的设置。
-  - scrape_interval：数据采集的时间间隔。示例中，设置为每15秒采集一次数据。
-- scrape_configs：数据采集配置部分，用于定义数据采集的目标和设置。
-  - job_name：采集任务的名称，用于标识该任务。
-  - metrics_path：指定要采集的指标路径。示例中设置为/actuator/prometheus，表示采集来自/actuator/prometheus端点的指标数据。
-  - static_configs：静态目标配置部分，用于定义要采集的目标。
-    - targets：目标的地址和端口。设置为host.docker.internal:8080，表示采集来自host.docker.internal主机的8080端口上的指标数据。
-### Prometheus部署
+
+配置解释：
+
+- `global`: 全局配置部分，定义全局设置。
+  - `scrape_interval`: 数据采集的时间间隔。示例中设置为每 15 秒采集一次数据。
+- `scrape_configs`: 数据采集配置部分，定义数据采集的目标和设置。
+  - `job_name`: 采集任务的名称，用于标识该任务。
+  - `metrics_path`: 指定采集指标的路径。示例中设置为 `/actuator/prometheus`，表示采集 `/actuator/prometheus` 端点的指标数据。
+  - `static_configs`: 静态目标配置部分，定义采集目标。
+    - `targets`: 目标的地址和端口。设置为 `host.docker.internal:8080`，表示采集 `host.docker.internal` 主机的 8080 端口上的指标数据。
+
+### Prometheus 部署
+
+使用 Docker 运行 Prometheus：
+
 ```shell
 docker run -p 9090:9090 -v /path/to/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
 ```
+
 注：
-* `/path/to`替换为实际的配置文件目录路径
-### 查看Prometheus
+
+- `/path/to` 替换为实际的配置文件目录路径。
+
+### 查看 Prometheus
+
+访问 Prometheus 界面：
+
 ```url
 http://localhost:9090
 ```
 
 ## 可视化监控
+
 ### 优点
-Prometheus和Grafana的结合使用可以提供强大的监控和可视化能力，帮助用户实时监控系统的性能和状态，快速识别问题并进行故障排除。它们的开源性质使得用户可以自由地使用和定制这些工具，满足特定的监控需求。
-### Grafana下载地址
+
+Prometheus 和 Grafana 的结合，提供了强大的监控与可视化功能。这对于实时监控系统性能和状态、快速定位及处理问题至关重要。它们作为开源工具，允许用户自由使用和定制，以满足各种监控需求。
+
+### Grafana 下载链接
+
+访问以下链接下载 Grafana:
+
 ```URL
 https://grafana.com/grafana/download
 ```
-### 配置文档
-具体Prometheus与Grafana结合使用可参考文档[Grafana对Prometheus的支持](https://prometheus.io/docs/visualization/grafana/)
-### 效果图示例
-- 下图是Rill Flow的submit接口的平均耗时Grafana配置示例图：
+
+### 配置指南
+
+想要了解如何将 Prometheus 与 Grafana 结合使用，请参阅以下文档：[Grafana 对 Prometheus 的支持](https://prometheus.io/docs/visualization/grafana/)
+
+### 效果展示
+
+- 下图展示了使用 Grafana 配置 Rill Flow 的 `submit` 接口的平均响应时间的示例：
   ![SUBMIT](assets/submit_garafana.jpg)
-- Grafana配置Json如下：
+- 相关的 Grafana 配置 JSON 示例如下：
+
 ```json
 {
   "datasource": {
