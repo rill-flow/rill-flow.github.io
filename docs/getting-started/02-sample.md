@@ -25,6 +25,6 @@ sidebar_position: 2
 ![call_aigc_translate](assets/call_aigc_translate.svg)
 
 
-## 通过文本生成视频
+## 通过文本生成图片
 
-![text_to_video](assets/text_to_video.svg)
+![text_to_pic](assets/text_to_pic.svg)
