@@ -13,14 +13,31 @@ sidebar_position: 8
 
 通过这种抽象层次结构，我们可以更灵活地管理和使用工作流，根据具体的业务需求，针对不同的业务、服务和别名进行配置和操作。
 ## 规则示例
-工作流唯一标识descriptor_id构成规则：
-```
-business_id + ":" + feature_name + ":" + "md5_" + 由yaml生成的长度为32的md5字符串
-```
-descriptor_id示例:
-```
-demoFlowTest:demoTest:md5_4f1707841ad4413fff4afa9d53e526b4
-```
+
+工作流唯一标识descriptor_id有两种构成规则：
+
+- 基于yaml文件md5生成descriptor_id 
+
+    ```
+    business_id + ":" + feature_name + ":" + "md5_" + 由yaml生成的长度为32的md5字符串
+    ```
+
+    descriptor_id示例:
+    ```
+    demoFlowTest:demoTest:md5_4f1707841ad4413fff4afa9d53e526b4
+    ```
+
+- 基于流程别名生成descriptor_id(默认使用别名下最新的yaml版本)
+
+    ```
+    business_id + ":" + feature_name + ":" + alias
+    ```
+
+    descriptor_id示例:
+    ```
+    demoFlowTest:demoTest:sandbox
+    ```
+
 工作流执行唯一标识execution_id构成规则
 ```
 business_id + ":" + feature_name + "_c_" + 根据时间戳生成的UUID，由"-"分隔，总长度为36
