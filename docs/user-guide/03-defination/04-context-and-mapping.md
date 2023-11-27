@@ -6,32 +6,31 @@ sidebar_position: 4
 
 ## 上下文
 
-工作流执行时，Rill Flow会为每个正在执行的流程分配一块存储区域，每个图都有自己的上下文，不同流程实例之间的上下文无法共享。
+在 Rill Flow 工作流执行期间，系统为每个执行中的流程分配独立的存储区域，即“上下文”。每个工作流实例都有自己的上下文，且不同实例间的上下文是相互隔离的。
 
-用户可以在上下文中定义变量，这些变量可以在任务节点中传递使用，执行过程中可以对context进行变更(Rill Flow保证了节点执行过程中对于上下文的读写不会产生并发问题)。
+在上下文中定义的变量可在任务节点间传递和使用。在执行过程中，可以对上下文进行读写操作，Rill Flow 确保节点执行过程中的并发安全性。
 
-流程图在编排时通过约定的`$.context.xxx`方式进行取值传递，用户调用接口`/flow/submit.json`发起流程执行时，通过`request body`将流程执行所需的上下文变量传入，任务执行过程中就可以按约定获取到相应上下文变量值。
-
+在流程图的编排中，通过 `$.context.xxx` 的格式引用上下文变量。用户在调用 `/flow/submit.json` 接口发起流程执行时，可通过请求体传入所需的上下文变量，以便在任务执行过程中获取相应的值。
 
 ## 参数映射
 
-在运行流程中的每个任务时，Rill Flow会根据配置的映射规则，将流程的上下文变量映射到任务节点执行所需的输入参数，同时将任务节点的执行结果更新到上下文变量中，传递给后续任务节点使用。
+Rill Flow 在执行流程中的每个任务时，会根据配置的映射规则，将上下文变量映射到任务节点所需的输入参数，并将执行结果更新回上下文，供后续任务使用。
 
-Rill Flow可以定义任务执行输入参数映射`inputMapping`、任务执行输出参数映射`outputMapping`和公共映射`commonMapping`三个参数映射规则。
+Rill Flow 支持三种参数映射规则：
 
-- `inputMapping`：输入参数映射，用于将上下文变量映射到任务节点的输入参数中。
-- `outputMapping`：输出参数映射，用于将任务节点的执行结果映射到上下文变量中，传递给后续任务节点使用。
-- `commonMapping`：定义公共参数映射，再通过`reference`属性引用公共参数映射，实现参数映射的复用
+- `inputMapping`：输入参数映射，将上下文变量映射到任务节点的输入参数。
+- `outputMapping`：输出参数映射，将任务节点的执行结果映射回上下文，供后续任务使用。
+- `commonMapping`：公共参数映射，可通过 `reference` 属性引用，实现参数映射的复用。
 
-![参数映射](assets/context_mapping.svg)
+![参数映射示意图](assets/context_mapping.svg)
 
-你可以为每个任务定义多个映射，每个映射需要包含`source`及`target`属性，均为`string`类型，内容为 [JsonPath](https://github.com/json-path/JsonPath) 表达式，表达式以`$`开头，可以引用以下内置变量：
+在 Rill Flow 中，你可以为每个任务定义多个参数映射，每个映射需包含 `source` 和 `target` 属性，这两个属性都是 `string` 类型，并且内容为 [JsonPath](https://github.com/json-path/JsonPath) 表达式。这些表达式以 `$` 开头，可以引用以下内置变量：
 
-* `$.context`:流程上下文
-* `$.input`:某个任务的输入参数
-* `$.output`:某个任务的输出参数
+- `$.context`：代表流程的上下文。
+- `$.input`：代表某个任务的输入参数。
+- `$.output`：代表某个任务的输出参数。
 
-如将上下文中的`foo`属性映射到任务的`bar`参数，则可以定义为：
+例如，若要将上下文中的 `foo` 属性映射到任务的 `bar` 参数，可定义如下映射规则：
 
 ```yaml
 inputMappings:
@@ -39,7 +38,7 @@ inputMappings:
     target: $.input.bar
 ```
 
-假设执行任务时，流程上下文中`foo`的值为`hello`，则派发器执行该任务时，将会生成以下json，并将数据传递给任务执行节点：
+在这个例子中，如果流程上下文中 `foo` 的值为 `hello`，派发器在执行该任务时会生成以下 JSON 并传递给执行节点：
 
 ```json
 {
@@ -47,36 +46,39 @@ inputMappings:
 }
 ```
 
-你也可以定义两层结构，Rill Flow会自动创建`map`类型的中间结构。
+你还可以定义具有两层结构的映射，Rill Flow 会自动创建 `map` 类型的中间结构，例如：
+
 ```yaml
 inputMappings:
   - source: $.context.name
     target: $.input.user.name
 ```
 
-`$context.name="hello"`，对应生成的input结构为：
+如果 `$context.name="hello"`，则生成的 input 结构将为：
 
 ```json
 {
   "user": {
-    "name":"hello"
+    "name": "hello"
   }
 }
 ```
 
-> 注：不支持自动创建超过2层的复杂结构。
+> 注：Rill Flow 不支持自动创建超过两层的复杂结构。
 
-Mapping参数映射相关属性的定义：
+在 Rill Flow 中，可以定义映射参数，用于在任务执行时进行上下文与输入输出参数之间的转换。映射参数具有以下属性：
 
-| 参数名       | 是否必须 | 类型      | 描述                                                                                                                                                                     |
-|-----------|------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| source    | 是    | string  | 输入来源，以$开头则认为是 [JsonPath](https://github.com/json-path/JsonPath) 表达式，其他情况则认为是字符串常量                                                                                      |
-| target    | 是    | string  | 任务执行时的输出参数，需为以$开头的JsonPath表达式                                                                                                                                          |
-| tolerance | 否    | boolean | 设置为false表示不容忍错误 异常时将导致整个mapping错误, 未设置或为true表示可容忍 当mapping异常时将跳过该mapping规则                                                                                             |
-| reference | 否    | string  | 引用`commonMapping`中公共参数映射                                                                                                                                               |
-| transform | 否    | string  | 使用 [Aviator](https://github.com/killme2008/aviatorscript) 表达式，将mapping.source获取到的值转换后存到mapping.target；当前表达式只支持系统预定义的变量，包括：source(mapping.source)、context(当前任务的context) |
+| 参数名       | 必须 | 类型      | 描述                                                                                                                                                                     |
+|-----------|----|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| source    | 是  | string  | 输入来源。如果以 `$` 开头，则视为 [JsonPath](https://github.com/json-path/JsonPath) 表达式；否则，视为字符串常量。                                                                                   |
+| target    | 是  | string  | 输出参数的目标位置，必须为以 `$` 开头的 JsonPath 表达式。                                                                                                                              |
+| tolerance | 否  | boolean | 错误容忍设置。false 表示不容忍错误，异常时会导致整个映射规则错误；未设置或 true 表示容忍错误，映射异常时将跳过该映射规则。                                                                           |
+| reference | 否  | string  | 引用 `commonMapping` 中定义的公共参数映射。                                                                                                                                               |
+| transform | 否  | string  | 使用 [Aviator](https://github.com/killme2008/aviatorscript) 表达式转换 `mapping.source` 获取到的值，然后存入 `mapping.target`。目前只支持预定义变量，包括：`source`（mapping.source）、`context`（当前任务的 context）。 |
 
-配置规则：通过inputMappings配置任务输入(context到input映射)，outputMappings配置任务输出(output到context映射) ，inputMappings/outputMappings值均为数组
+配置规则：通过 `inputMappings` 配置任务输入（context 到 input 映射），通过 `outputMappings` 配置任务输出（output 到 context 映射）。`inputMappings` 和 `outputMappings` 的值均为数组。
+
+示例配置：
 
 ```yaml
 type: flow
@@ -90,11 +92,10 @@ tasks:
     inputMappings:
       - source: $.context.urlCon
         target: $.input.url
-      - source: hello
+      - source: "hello"
         target: $.input.text
       - reference: commonInput
     outputMappings:
       - source: $.output.segments
         target: $.context.segments
 ```
-
