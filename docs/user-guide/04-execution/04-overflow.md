@@ -65,9 +65,7 @@ Rill Flow 支持通过配置或参数传递两种方式实现自定义限流策�
 }
 ```
 
-check_type 指定了限流策略的模式，当限流模式为 key_resource 时，需要配置 key_resources，定义哪些资源为关键资源，其他模式无需配置 key_resources。
-
-上面的示例意为：通过关键资源模式进行限流，关键资源为 key_resources 对应的列表中的两个资源。
+该示例通过 check_type 指定了限流策略的模式为关键资源模式（key_resource），并且通过 key_resources 配置，定义了哪些资源为关键资源。
 
 ### 配置方式
 
@@ -87,7 +85,7 @@ curl -XPOST 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=demoFlowTest:d
     -d '{"left":5,"right":5}'
 ```
 
-示例中 resource_check 参数的值：%7B%22check_type%22%3A%22long_board%22%7D 即限流策略的 json 配置结构 {"check_type":"long_board"} 的 UrlEncode 结果。
+示例中 resource_check 参数的值：%7B%22check_type%22%3A%22long_board%22%7D 即限流策略的 json 配置结构 {"check_type":"long_board"} 的 UrlEncode 结果，表示通过长板模式实现限流策略。
 
 #### 2. 通过 properties 配置
 
@@ -96,7 +94,7 @@ curl -XPOST 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=demoFlowTest:d
 具体的配置示例如下：
 
 ```properties
-weibo.flow.runtime.resource.check.id.to.config={'weiboFaasFlowTest':'{"check_type":"long_board"}'}
+weibo.flow.runtime.resource.check.id.to.config={'demoFlowTest':'{"check_type":"long_board"}'}
 ```
 
 该配置为一个 map 结构，key 为工作流业务ID（businessId），值为 String 类型的限流配置结构 json 配置。
