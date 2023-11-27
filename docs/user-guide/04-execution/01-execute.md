@@ -2,24 +2,22 @@
 sidebar_position: 1
 ---
 
-# 执行工作流
+# Executing Workflows
 
-## 简介
+## Introduction
 
-在 Rill Flow 中创建工作流后，你会获得一个与工作流相关的 `descriptorid`。这个 `descriptorid` 由三部分组成：业务ID（businessId）、DAG 图Id（featureId）、DAG 图别名（alias）。
+In Rill Flow, once a workflow is created, you receive a specific `descriptorid`, comprising three elements: business ID (businessId), DAG graph ID (featureId), and DAG graph alias (alias). With this `descriptorid`, you can submit and execute the workflow.
 
-有了这个 `descriptorid` 后，你就可以开始提交并执行工作流了。
+Workflow execution in Rill Flow is asynchronous. The system assigns a unique `execution_id` to each running workflow. Users can use this ID to track the workflow's running status and retrieve results upon completion.
 
-在 Rill Flow 中，工作流的执行是异步的。系统会为每个正在运行的工作流分配一个唯一的 `execution_id`。用户可以利用这个 ID 来查询工作流的运行状态，并在执行完成后获取结果。
+## API Usage
 
-## 接口
+To submit a workflow task, use the [/flow/submit.json](../07-api.md#executing-a-workflow) API.
 
-使用 [/flow/submit.json](../07-api.md#执行工作流) 接口来提交工作流任务。
+## Trigger Functionality
 
-## 触发器
+Rill Flow abstracts the workflow trigger logic, supporting various triggering methods such as scheduled tasks and message queue triggers.
 
-Rill Flow 对流程触发逻辑进行了抽象，支持多种触发方式，如定时任务、消息队列触发等。
-
-## 后台提交
+## Backend Submission
 
 // TODO
