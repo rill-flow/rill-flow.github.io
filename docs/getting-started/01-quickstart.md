@@ -52,7 +52,7 @@ minikube dashboard --url&
 
 ```shell
 helm repo add rill-flow https://rill-flow.github.io/rill-flow-helm-chart
-helm install rill-flow rill-flow/rill-flow -n=rill-flow --create-namespace
+helm upgrade --install rill-flow rill-flow/rill-flow --namespace rill-flow --create-namespace
 ```
 
 ## 验证安装

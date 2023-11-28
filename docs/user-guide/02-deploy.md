@@ -24,13 +24,13 @@ Rill Flow 可以部署在单机上，用于开发、测试、调试等场景，�
 
 ```shell
 helm repo add rill-flow https://rill-flow.github.io/rill-flow-helm-chart
-helm install rill-flow rill-flow/rill-flow -n=rill-flow
+helm upgrade --install rill-flow rill-flow/rill-flow --namespace rill-flow --create-namespace
 ```
 
 Rill Flow依赖redis和jaeger组件，启动时会默认创建redis及jaeger实例Pod，默认启动方式在Rill Flow部署重启时会丢失数据，仅供开发测试使用，生产环境可通过指定`env`变量或者修改`values.yaml`文件配置持久化redis实例地址。
 
 ```shell
-helm install rill-flow rill-flow/rill-flow -n=rill-flow --set redis.enabled=false --set rill_flow_descriptor_redis_host=${redis_host} --set rill_flow_default_redis_host=${redis_host} --set jaeger.enabled=false --set OTEL_EXPORTER_OTLP_ENDPOINT=${jaeger_endpoint} --set rill_flow_trace_exporter_ip=${jaeger_exporter_ip} --set rill_flow_trace_exporter_port=${jaeger_exporter_port}
+helm upgrade --install rill-flow rill-flow/rill-flow --namespace rill-flow --create-namespace --set redis.enabled=false --set rill_flow_descriptor_redis_host=${redis_host} --set rill_flow_default_redis_host=${redis_host} --set jaeger.enabled=false --set OTEL_EXPORTER_OTLP_ENDPOINT=${jaeger_endpoint} --set rill_flow_trace_exporter_ip=${jaeger_exporter_ip} --set rill_flow_trace_exporter_port=${jaeger_exporter_port}
 ```
 
 注：
