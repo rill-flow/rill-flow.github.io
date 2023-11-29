@@ -30,7 +30,8 @@ spec:
               value: {{ .Values.rill_flow.env.OTEL_EXPORTER_OTLP_ENDPOINT }}
             - name: rill_flow_dag_redo_url
               value: {{ .Values.rill_flow.env.rill_flow_dag_redo_url }}        
-        
+            - name: rill_flow_callback_url
+              value: {{.Values.rill_flow.env.rill_flow_callback_url }} 
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst

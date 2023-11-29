@@ -1,11 +1,27 @@
+## Rill Flow helm chart 参数说明
+
+
+## Rill Flow 单机部署依赖组件参数配置
+
+## Redis启动配置
+## @param redis.architecture  Redis部署模式: `standalone`（单例模式） or `replication`（主从模式），默认为`standalone`
+## @param redis.enable 部署Rill Flow服务是否启动redis，默认为`true`：默认启动redis
+## @param redis.auth.enabled redis启动是否开启密码认证，默认为`false`:不开启密码认证
 redis:
   architecture: standalone
   enabled: true 
   auth:
     enabled: false
+
+## Jaeger Trace启动配置
+## @param jaeger.enabled 部署Rill Flow 是否启动jaeger组件，默认为`true`：默认启动jaeger组件
+## @param jaeger.allInOne.enabled 部署jaeger服务一键启动Jaeger UI, collector, query, 和 agent 组件，默认为`true`
+## @param jaeger.query.enabled 部署jaeger服务是否单独启动query组件, 默认为`false`
+## @param jaeger.agent.enabled 部署jaeger服务是否单独启动agent组件, 默认为`false`
+## @param jaeger.collector.enabled 部署jaeger服务是否单独启动collector组件, 默认为`false`
+## @param jaeger.cassandra.enabled 部署jaeger服务是否单独启动cassandra组件, 默认为`false`
 jaeger:
-  architecture: standalone
-  enabled: false
+  enabled: true
   allInOne:
     enabled: true
   query:
@@ -15,7 +31,19 @@ jaeger:
   collector:
     enabled: false
   cassandra:
-    enabled: false 
+    enabled: false
+
+## Rill Flow 服务启动配置
+## @param rill_flow.env.rill_flow_descriptor_redis_host 储存流程图(DAG)信息的redis地址，默认为redis组件的k8s service地址
+## @param rill_flow.env.rill_flow_descriptor_redis_port 储存流程图(DAG)信息的redis端口，默认为`6379`
+## @param rill_flow.env.rill_flow_default_redis_host 储存Rill Flow 其他信息的redis地址，默认为redis组件的k8s service地址
+## @param rill_flow.env.rill_flow_default_redis_port 储存Rill Flow 其他信息的redis端口，默认为`6379`
+## @param rill_flow.env.rill_flow_trace_exporter_ip trace数据查询地址,默认为jaeger query组件的本地代理地址`127.0.0.1`
+## @param rill_flow.env.rill_flow_trace_exporter_port trace数据查询端口,默认为jaeger query组件的本地代理端口`16686`
+## @param rill_flow.env.OTEL_EXPORTER_OTLP_ENDPOINT trace数据采集器地址，默认为jaeger collector组件的k8s service地址
+## @param rill_flow.env.rill_flow_dag_redo_url 流程重做接口地址，默认为Rill Flow后端服务的k8s service地址
+## @param rill_flow.env.rill_flow_callback_url 任务节点执行结果回调通知接口地址，默认为Rill Flow后端服务的k8s service地址
+## @param rill_flow.env.BACKEND_SERVER Rill Flow后端服务地址，供前端页面调用使用，默认为redis组件的k8s service地址
 rill_flow:
   env:
     rill_flow_descriptor_redis_host: rill-flow-redis-master.rill-flow
