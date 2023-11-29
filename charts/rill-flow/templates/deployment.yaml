@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: rill-flow-backend
-          image: 'weibocom/rill-flow:0.0.1'
+          image: 'weibocom/rill-flow'
           imagePullPolicy: IfNotPresent
           ports:
             - hostPort: 8080

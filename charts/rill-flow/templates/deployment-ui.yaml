@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: rill-flow-ui
-          image: 'weibocom/rill-flow-ui:0.0.1'
+          image: 'weibocom/rill-flow-ui'
           imagePullPolicy: IfNotPresent
           ports:
             - hostPort: 9080
