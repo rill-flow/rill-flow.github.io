@@ -16,6 +16,10 @@ Rill Flow 作为一个高性能、可扩展的分布式流程编排系统，为�
 http://127.0.0.1:16686/search
 ```
 
+- Trace图
+
+![TRACE](assets/trace_sample.png)
+
 ## 自定义 Trace
 
 ### Jaeger 数据收集端口修改

@@ -12,16 +12,20 @@ sidebar_position: 7
 - **请求方式**：POST
 - **请求参数说明**：
 
-    | 参数名称 | 必填 |  类型 | 说明 |
-    |------|------|-------|------|
-    | business_id  | 是 | String | 工作流业务ID |
-    | feature_name  | 是 | String | 工作流服务名称 |
-    | alias  | 是 | String | 工作流别名 |
-    | descriptor  | 是 | String | 工作流YAML描述 |
+  | 参数名称 | 必填 |  类型 | 说明 |
+      |------|------|-------|------|
+  | business_id  | 是 | String | 工作流业务ID |
+  | feature_name  | 是 | String | 工作流服务名称 |
+  | alias  | 是 | String | 工作流别名 |
 
-- **descriptor参数示例**：
+- **请求Body参数**：工作流yaml定义
 
-```yaml
+- **请求示例**：
+
+```curl
+curl --location --request POST 'http://127.0.0.1:8080/flow/bg/manage/descriptor/add_descriptor.json?business_id=demoFlowTest &feature_name=demoFlowTest &alias=release' \
+--header 'Content-Type: text/plain' \
+--data-raw '---
 version: 20230829         
 workspace: demoFlowTest    
 dagName: demoTest         
@@ -67,16 +71,17 @@ tasks:
 - **请求参数说明**：
 
   | 参数名称 | 必填 |  类型 | 说明 |
-  |------|------|-------|------|
+    |------|------|-------|------|
   | descriptor_id  | 是 | String | 工作流ID |
   | callback  | 否 | String | 执行完成后的回调地址 |
   | resource_check  | 否 | String | 资源检测规则 |
-  | data  | 否 | JSONObject | 工作流执行的context信息 |
 
-- **data参数示例**：
+- **请求Body参数**：工作流执行的context信息
 
-```txt
-{"left": 512, "right": 512}
+- **请求示例**：
+
+```curl
+curl -XPOST 'http://127.0.0.1:8080/2/flow/submit.json?descriptor_id=demoFlowTest:demoTest' -d '{"left": 512, "right": 512}' -H'Content-Type:application/json'
 ```
 
 - **返回结果**：
@@ -94,12 +99,11 @@ tasks:
 - **请求参数说明**：
 
   | 参数名称 | 必填 |  类型 | 说明 |
-  |------|------|-------|------|
+    |------|------|-------|------|
   | executionId  | 是 | String | 执行ID |
   | taskName  | 是 | String | 任务名称 |
-  | result  | 否 | JSONObject | 工作流执行的context信息 |
 
-- **result参数示例**：
+- **请求Body参数示例**：
 
 ```txt
 {
@@ -129,7 +133,7 @@ tasks:
 - **请求参数说明**：
 
   | 参数名称 | 必填 |  类型 | 说明 |
-  |------|------|-------|------|
+    |------|------|-------|------|
   | execution_id  | 是 | String | 工作流执行ID |
   | brief  | 否 | boolean | 是否返回简略信息（true：只返回工作流本身执行情况，false：返回工作流及各节点执行情况） |
 
@@ -172,8 +176,11 @@ tasks:
 
 ## 其他API
 
-项目已集成[Swagger2](https://swagger.io/)框架，完整接口描述可在服务启动后访问以下地址：
+- **项目已集成[Swagger2](https://swagger.io/)框架，完整接口描述可在服务启动后访问以下地址**：
 
 ```txt
 http://127.0.0.1:8080/swagger-ui.html
 ```
+效果如下图：
+
+![SWAGGER](assets/swagger.jpg)
