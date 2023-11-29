@@ -9,6 +9,6 @@ spec:
     rill-flow-ui: rill-flow-ui
   ports:
     - name: frontend-port
-      port: 9080
-      targetPort: 9080
+      port: 80
+      targetPort: 80
       protocol: TCP

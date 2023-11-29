@@ -19,10 +19,6 @@ spec:
         - name: rill-flow-backend
           image: 'weibocom/rill-flow'
           imagePullPolicy: IfNotPresent
-          ports:
-            - hostPort: 8080
-              containerPort: 8080
-              protocol: TCP
           env:
             - name: rill_flow_descriptor_redis_host
               value: {{ .Values.rill_flow.env.rill_flow_descriptor_redis_host }}

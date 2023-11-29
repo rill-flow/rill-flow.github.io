@@ -5,7 +5,7 @@ redis:
     enabled: false
 jaeger:
   architecture: standalone
-  enabled: true
+  enabled: false
   allInOne:
     enabled: true
   query:

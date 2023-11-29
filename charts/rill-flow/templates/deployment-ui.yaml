@@ -19,10 +19,6 @@ spec:
         - name: rill-flow-ui
           image: 'weibocom/rill-flow-ui'
           imagePullPolicy: IfNotPresent
-          ports:
-            - hostPort: 9080
-              containerPort: 80
-              protocol: TCP
           env:
             - name: BACKEND_SERVER
               value: {{ .Values.rill_flow.env.BACKEND_SERVER }}
