@@ -181,6 +181,6 @@ curl -XPOST 'http://127.0.0.1:8080/2/flow/submit.json?descriptor_id=demoFlowTest
 ```txt
 http://127.0.0.1:8080/swagger-ui.html
 ```
-- **Swagger图**：
+效果如下图：
 
 ![SWAGGER](assets/swagger.jpg)
