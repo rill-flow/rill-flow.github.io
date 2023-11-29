@@ -2,7 +2,6 @@
 
 
 ## Rill Flow 单机部署依赖组件参数配置
-
 ## Redis启动配置
 ## @param redis.architecture  Redis部署模式: `standalone`（单例模式） or `replication`（主从模式），默认为`standalone`
 ## @param redis.enable 部署Rill Flow服务是否启动redis，默认为`true`：默认启动redis
