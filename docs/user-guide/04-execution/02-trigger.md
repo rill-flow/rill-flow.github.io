@@ -13,56 +13,170 @@ Rill Flow 支持以下类型的触发器：
 - 定时触发器：用于按计划时间自动提交工作流。
 - Kafka 消息触发器：通过向指定的 Kafka 主题发送消息来触发工作流的执行。
 
-## 定时触发器
+# 触发器任务维护接口
+
+Rill Flow 提供了通用的接口，来创建、删除及维护触发器任务。
+
+## 创建触发器任务
+
+用来创建指定类型的触发器的一个触发器任务。
+
+### URI
+
+/flow/trigger/add_trigger.json
+
+### 调用方式
+
+POST
+
+### 参数
+
+- Get 参数
+
+| 参数名称       | 类型   | 是否必须 | 参数说明                                                     |
+| -------------- | ------ | -------- | ------------------------------------------------------------ |
+| type           | String | 是       | 触发器类型，取值为 kafka（kafka 消息触发器）或 cron（定时触发器） |
+| descriptor_id  | String | 是       | 当前触发器任务触发执行的 DAG 图 id，参考：[执行工作流](01-execute.md) |
+| callback       | String | 否       | 可选参数，用来定义工作流执行后的通知任务，参看：[执行工作流](01-execute.md) |
+| resource_check | String | 否       | 可选参数，用于定义限流策略，参考：[过载保护](04-overflow.md) |
+
+- Post 参数
+
+Post 参数为 Json 格式字符串，因此调用 header 中的 Content-Type 参数须为 application/json。
+
+Post 参数的具体格式由各触发器定义。
+
+## 取消触发器任务
+
+用于通过任务 id 取消指定类型的触发器任务。
+
+### URI
+
+/flow/trigger/cancel_trigger.json
+
+### 调用方式
+
+POST
+
+### 参数
+
+- Get 参数
+
+| 参数名称 | 类型   | 是否必须 | 参数说明                                                     |
+| -------- | ------ | -------- | ------------------------------------------------------------ |
+| type     | String | 是       | 触发器类型，取值为 kafka（kafka 消息触发器）或 cron（定时触发器） |
+| task_id  | String | 是       | 触发器任务 id，kafka 触发器为 topic#descriptor_id，cron 触发器为创建触发器任务时返回的 task_id 参数 |
+
+## 查询触发器任务列表
+
+用于通过任务 id 取消指定类型的触发器任务。
+
+### URI
+
+/flow/trigger/get_trigger_tasks.json
+
+### 调用方式
+
+GET
+
+### 参数
+
+| 参数名称 | 类型   | 是否必须 | 参数说明                                                     |
+| -------- | ------ | -------- | ------------------------------------------------------------ |
+| type     | String | 是       | 触发器类型，取值为 kafka（kafka 消息触发器）或 cron（定时触发器） |
+
+### 返回参数
+
+返回参数为 json 结构，包含三个参数：
+
+- code：标识查询是否正确，0：正确，-1：错误；
+- message：当 code 不为 0 时，用来返回具体的错误信息；
+- data：任务详情，json 格式的 key-value 形式，具体见示例。
+
+下面是一个返回参数的示例：
+
+```json
+{
+  	"code": 0,
+  	"data": {
+        "submit_topic#weiboFaasFlowTest:openaiTask": {
+            "descriptor_id": "RillFlowTest:openaiTask",
+        }
+    }
+}
+```
+
+# 定时触发器
 
 定时触发器允许用户设置周期性任务，系统将按预设的时间周期自动触发工作流提交。
 
-### 提交定时触发任务
+## 创建定时触发任务
 
-Rill Flow 提供了 HTTP 接口来提交定时触发任务：
+通过调用上文描述的“创建触发器任务”接口，传递 `type` 参数值为 cron，即可创建指定 DAG 图的定时执行。
 
-- 接口 URI: `/flow/trigger/add_scheduler.json`
-- 请求方式：POST
-- 请求头 Content-Type：application/json
-- GET 请求参数：
-  - `cron`：Cron 表达式，如 `0 * * * * *` 表示每分钟执行一次。
-  - `descriptor_id`：需要定时执行的 DAG 图的 ID。
-  - `callback`：可选参数，用于定义工作流执行完毕后的通知任务，详见：[提交工作流](01-execute.md)。
-- POST 请求体：执行 DAG 图所需的上下文信息。
-- 返回数据：JSON 格式，例如 `{"code": 0, "data": {"task_id": 1}}`。
-  - `code`：表示调用成功与否，0 表示成功，非 0 表示失败。
-  - `task_id`：定时触发任务的 ID，用于后续管理。
+当提交定时触发任务时，“创建触发器任务”接口的 POST 参数必须具备以下两个参数：
+
+- `cron`：定时语句，如 0 * * * * * 表示每分钟执行一次
+- `context`：DAG 图执行所需的上下文。
+
+如：
+
+```json
+{
+  "cron": "0 * * * * *",
+  "context": {
+    "message": "hello world"
+  }
+}
+```
+
+创建触发器任务执行后，会返回 json 格式的信息，如 `{"code": 0, "data": {"task_id": 1}}`
+
+- `code`：用于标识是否调用成功，0：成功，非 0：失败。
+- `task_id`：定时触发任务的 id，用于管理定时触发任务。
 
 #### 取消定时触发任务
 
-提交定时触发任务后，系统将根据 `cron` 语句定义的周期自动提交工作流。若需要取消这些定时触发的任务，Rill Flow 提供了相应的 HTTP 接口：
+提交定时触发任务后，Rill Flow 会返回 `task_id` 参数，系统将根据 `cron` 语句定义的周期自动提交工作流。
 
-- 接口 URI: `/flow/trigger/cancel_scheduler.json`
-- 请求方式：POST
-- 请求头 Content-Type：application/json
-- GET 请求参数：
-  - `task_id`：需要取消的定时触发任务的 ID。
-- 返回数据：JSON 格式，例如 `{"code": 0, "data": {"task_id": 1, "result": true}}`。
-  - `code`：表示调用成功与否，0 表示成功，非 0 表示失败。
-  - `task_id`：传入的定时触发任务 ID。
-  - `result`：取消任务是否成功。
+通过将 `task_id` 参数以及 `type`: cron 参数调用取消触发器任务接口，即可取消该定时触发任务。
 
-## Kafka 触发器
+接口返回参数：json格式，`{"code":0, "data":{"task_id": 1, "result": true}}`
+- `code`：用于标识是否调用成功，0：成功，非 0：失败
+- `task_id`：传入的定时触发任务的 id
+- `result`：是否成功取消
 
-Kafka 触发器允许通过 Kafka 消息来触发工作流提交。
+# kafka触发器
 
-Rill Flow 监听配置在本地 9092 端口的 Kafka 服务，并关注名为 `submit_topic` 的 topic。用户通过向此 topic 发送消息，即可触发特定工作流的执行。
+kafka 触发器用于支持通过 kafka 消息来触发工作流的提交。
 
-消息内容示例：
+Rill Flow 通过如下 java properties 配置监听的 kafka 服务及对应的 groupId，默认情况下配置在 rill-flow-web 模块的 resource/application.properties 文件中：
 
-```json
-{"descriptor_id":"rillflowTest:kafkaTriggerTest","data":{},"callback":{},"uid":1234567,"resource_check":{"check_type":"skip"}}
+```properties
+kafka.trigger.servers=127.0.0.1:9092
+kafka.trigger.group.id=rill-flow-group
 ```
 
-参数说明：
+## 创建 kafka 触发器任务
 
-- `descriptor_id`：需要触发执行的 DAG 图的 ID。
-- `data`：工作流执行的全局上下文。
-- `uid`：可选，发起执行的用户 ID。
-- `callback`：可选，用于定义工作流执行后的通知任务，详见：[提交工作流](01-execute.md)。
-- `resource_check`：可选，用于定义限流策略，详见：[过载保护](04-overflow.md)。
+通过调用上文描述的“创建触发器任务”接口，传递 `type` 参数值为 kafka，即可创建指定 DAG 图的 kafka 消息触发执行任务。
+
+当提交 kafka 触发任务时，“创建触发器任务”接口的 POST 参数必须具备 topic 参数，如：
+
+```json
+{
+  "topic": "submit_topic"
+}
+```
+
+## kafka 触发器任务的触发执行
+
+成功执行创建 kafka 触发器任务后，消费者就开始监听指定的 topic，当 topic 中有消息到来时，Rill Flow 会自动以消息体作为 DAG 图执行的上下文信息，结合创建触发器任务时传递的 descriptor_id 等信息，触发 DAG 图的执行。
+
+向 kafka 发送的消息须为 json 格式的 context 信息，如：
+
+```json
+{
+  "message": "hello world"
+}
+```
