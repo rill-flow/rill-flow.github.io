@@ -23,23 +23,34 @@ services:
     image: weibocom/rill-flow
     depends_on:
       - cache
+      - jaeger
     ports:
       - "8080:8080"
     environment:
-      - rill_flow_descriptor_redis_host=cache
-      - rill_flow_default_redis_host=cache
+      - RILL_FLOW_DESCRIPTOR_REDIS_HOST=cache
+      - RILL_FLOW_DEFAULT_REDIS_HOST=cache
+      - RILL_FLOW_TRACE_ENDPOINT=http://jaeger:4317
+      - RILL_FLOW_CALLBACK_URL=http://rill-flow:8080/flow/finish.json
   cache:
     image: redis:6.2-alpine
     restart: always
     command: redis-server --save 20 1 --loglevel warning
+  jaeger:
+    image: jaegertracing/all-in-one:1.39
+    restart: always
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
   ui:
     image: weibocom/rill-flow-ui
     ports:
       - "8088:80"
+      - "8089:8089"
     depends_on:
       - rill-flow
+      - jaeger
     environment:
       - BACKEND_SERVER=http://rill-flow:8080
+      - TRACE_SERVER=http://jaeger:16686
 EOF
 docker-compose up -d
 ```
@@ -49,16 +60,18 @@ docker-compose up -d
 要查看 Rill Flow 的运行情况，请执行以下命令：
 
 ```shell
-docker ps
+docker-compose ps
 ```
 
 以下是预期输出：
 
 ```txt
-CONTAINER ID   IMAGE                   COMMAND                  CREATED          STATUS          PORTS                    NAMES
-6e2bc428861a   weibocom/rill-flow-ui   "/docker-entrypoint.…"   15 minutes ago   Up 15 minutes   0.0.0.0:8088->80/tcp     tmp_ui_1
-711fcfe891eb   weibocom/rill-flow      "catalina.sh run"        18 minutes ago   Up 15 minutes   0.0.0.0:8080->8080/tcp   tmp_rill-flow_1
-bef15e21146c   redis:6.2-alpine        "docker-entrypoint.s…"   39 minutes ago   Up 39 minutes   6379/tcp                 tmp_cache_1
+     Name                    Command               State                                    Ports
+----------------------------------------------------------------------------------------------------------------------------------
+tmp_cache_1       docker-entrypoint.sh redis ...   Up      6379/tcp
+tmp_jaeger_1      /go/bin/all-in-one-linux         Up      14250/tcp, 14268/tcp, 16686/tcp, 5775/udp, 5778/tcp, 6831/udp, 6832/udp
+tmp_rill-flow_1   catalina.sh run                  Up      0.0.0.0:8080->8080/tcp
+tmp_ui_1          /docker-entrypoint.sh /bin ...   Up      0.0.0.0:8088->80/tcp, 0.0.0.0:8089->8089/tcp
 ```
 
 如果你的实际输出与预期输出相符，表示 Rill Flow 已经成功安装。
@@ -126,4 +139,5 @@ http://127.0.0.1:8088/#/flow-instance/list
 
 ## 接下来
 
+- 查看[更多示例](./02-sample.md)
 - 查看[架构介绍](../user-guide/01-arch.md)
