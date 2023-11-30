@@ -10,7 +10,7 @@ Rill Flow是一个分布式的流程编排和任务调度执行框架，支持�
 
 Rill Flow可以在单机环境下部署，适用于开发、测试和调试。单机部署的具体方法请参考[快速开始文档](../getting-started/01-quickstart.md)。
 
-## Kubernetes部署
+## Kubernetes部署 *(开发中)*
 
 ### Helm
 

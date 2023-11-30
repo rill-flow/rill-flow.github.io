@@ -7,7 +7,6 @@ sidebar_position: 2
 ## 流程控制
 
 ![flow_control](assets/flow_control.svg)
-![flow_control](assets/ref_subflow.svg)
 
 [yaml定义文件](https://github.com/weibocom/rill-flow/blob/main/docs/samples/choice-sample.yaml)
 
@@ -58,7 +57,7 @@ EOF
 docker-compose up -d
 ```
 ```cURL
-curl --location 'http://<RILL_FLOW_HOST>/flow/submit.json?descriptor_id=rillFlowSample%3AparallelAsyncTask' \
+curl --location 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=rillFlowSample%3AparallelAsyncTask' \
 --header 'Content-Type: application/json' \
 --data '{
     "rand_num":20
@@ -72,7 +71,7 @@ curl --location 'http://<RILL_FLOW_HOST>/flow/submit.json?descriptor_id=rillFlow
 [yaml定义文件](https://github.com/weibocom/rill-flow/blob/main/docs/samples/ref-dag.yaml)
 
 ```cURL
-curl --location 'http://<RILL_FLOW_HOST>/flow/submit.json?descriptor_id=rillFlowSample%3AsubdagTask' \
+curl --location 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=rillFlowSample%3AsubdagTask' \
 --header 'Content-Type: application/json' \
 --data '{
     "parent_rand_num":20
@@ -83,11 +82,10 @@ curl --location 'http://<RILL_FLOW_HOST>/flow/submit.json?descriptor_id=rillFlow
 ## 接收kafka消息后调用AIGC翻译文本
 
 ![call_aigc_translate](assets/call_aigc_translate.svg)
-![ref_subflow](assets/ref_subflow.svg)
 
 [yaml定义文件](https://github.com/weibocom/rill-flow/blob/main/docs/samples/kafka-translate.yaml)
 
-启动kafka
+* 启动kafka
 
 ```Bash
 cat << EOF > docker-compose-sample.yaml
@@ -132,15 +130,15 @@ services:
 EOF
 docker-compose -f docker-compose-sample.yaml up -d 
 ```
-创建kafka trigger
+* 创建kafka trigger
 ```cURL
 curl -XPOST 'http://127.0.0.1:8080/flow/trigger/add_trigger.json?descriptor_id=rillFlowSample:kafkaTranslate&type=kafka' -d '{"topic": "topic_input", "kafka_server":
 "<YOUR_KAFKA_HOST>:9092", "group_id": "rill-flow-group"}' -H 'Content-Type: application/json'
 ```
 
-提交kafka消息
+* 提交kafka消息
 ```Bash
-docker exec kafka1 bash -c 'echo {\"message\":\"this is a message from rill-flow\"} |kafka-console-producer  --bootstrap-server localhost:19092 --topic topic_input
+docker exec kafka1 bash -c 'echo {\"message\":\"this is a message from rill-flow\"} |kafka-console-producer  --bootstrap-server localhost:19092 --topic topic_input'
 ```
 
 ## 通过文本生成图片
