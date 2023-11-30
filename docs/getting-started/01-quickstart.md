@@ -9,50 +9,39 @@ sidebar_position: 1
 首先，您需要安装好对应的依赖环境，以及工具：
 
 - OSX/Linux环境
-- [MiniKube(可选)](https://minikube.sigs.k8s.io)
-- [Kubectl](https://kubernetes.io/zh-cn/docs/reference/kubectl/kubectl/)
-- [Helm](https://helm.sh)
+- [docker](https://docs.docker.com/engine/install/)
+- [docker-compose](https://docs.docker.com/compose/install/)
 
-
-### 启动MiniKube(可选)
-
-建议在K8S环境下部署Rill Flow，如果你没有可用的K8S集群，可以使用Miniube或类似的工具在本机快速搭建一个测试K8S环境（仅支持OSX/Linux环境)。
-
-- 启动Minikube
-
-```shell
-minikube start --driver=docker --image-mirror-country=cn
-```
-
-- 检查Minikube集群状态
-
-```shell
-minikube status
-```
-
-- 设置Kubectl上下文为Minikube集群
-
-```shell
-kubectl config use-context minikube
-```
-
-- 验证Kubernetes集群状态
-
-```shell
-kubectl cluster-info
-```
-
-- 打开Kubernetes仪表板
-
-```shell
-minikube dashboard --url&
-```
 
 ## 服务部署
 
 ```shell
-helm repo add rill-flow https://rill-flow.github.io/rill-flow-helm-chart
-helm install rill-flow rill-flow/rill-flow -n=rill-flow --create-namespace
+cat << EOF > docker-compose.yaml
+version: '3'
+services:
+  rill-flow:
+    image: weibocom/rill-flow
+    depends_on:
+      - cache
+    ports:
+      - "8080:8080"
+    environment:
+      - rill_flow_descriptor_redis_host=cache
+      - rill_flow_default_redis_host=cache
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning
+  ui:
+    image: weibocom/rill-flow-ui
+    ports:
+      - "8088:80"
+    depends_on:
+      - rill-flow
+    environment:
+      - BACKEND_SERVER=http://rill-flow:8080
+EOF
+docker-compose up -d
 ```
 
 ## 验证安装
@@ -60,35 +49,23 @@ helm install rill-flow rill-flow/rill-flow -n=rill-flow --create-namespace
 要查看 Rill Flow 的运行情况，请执行以下命令：
 
 ```shell
-kubectl get po -n rill-flow
+docker ps
 ```
 
 以下是预期输出：
 
 ```txt
-NAME                              READY   STATUS    RESTARTS   AGE
-rill-flow-55b9c59f66-ngrl6        1/1     Running   0          40m
-rill-flow-cassandra-0             1/1     Running   0          40m
-rill-flow-cassandra-1             1/1     Running   0          37m
-rill-flow-cassandra-2             1/1     Running   0          34m
-rill-flow-jaeger-df446445-457l5   1/1     Running   0          40m
-rill-flow-redis-master-0          1/1     Running   0          39m
-rill-flow-ui-686b7b98b7-cvnqz     1/1     Running   0          40m
+CONTAINER ID   IMAGE                   COMMAND                  CREATED          STATUS          PORTS                    NAMES
+6e2bc428861a   weibocom/rill-flow-ui   "/docker-entrypoint.…"   15 minutes ago   Up 15 minutes   0.0.0.0:8088->80/tcp     tmp_ui_1
+711fcfe891eb   weibocom/rill-flow      "catalina.sh run"        18 minutes ago   Up 15 minutes   0.0.0.0:8080->8080/tcp   tmp_rill-flow_1
+bef15e21146c   redis:6.2-alpine        "docker-entrypoint.s…"   39 minutes ago   Up 39 minutes   6379/tcp                 tmp_cache_1
 ```
 
 如果你的实际输出与预期输出相符，表示 Rill Flow 已经成功安装。
 
 ## 访问Rill Flow 管理后台
 
-Rill Flow 的快速部署是基于本地 Kubernetes 的，因此需要通过 Kubernetes 的端口转发功能，将服务暴露到本地，才能通过本机 IP:端口 访问到 Rill Flow 管理后台、后端API接口以及trace 链路查询接口。
-
-```shell
-kubectl -n rill-flow --address 0.0.0.0 port-forward svc/rill-flow-service 8080:8080&
-kubectl -n rill-flow --address 0.0.0.0 port-forward deployment/rill-flow-ui 9080:80&
-kubectl -n rill-flow --address 0.0.0.0 port-forward svc/rill-flow-jaeger-query 16686:16686&
-```
-
-执行成功后，可通过 `http://localhost:9080` 访问 Rill Flow 管理后台。
+执行成功后，可通过 `http://localhost:8088` (admin/admin)访问 Rill Flow 管理后台。
 
 ## 提交任务
 
@@ -140,7 +117,7 @@ curl -XPOST 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=rillFlowSimple
 - 打开Rill Flow管理后台查询执行详情
 
 ```cURL
-http://127.0.0.1:9080/#/flow-instance/list
+http://127.0.0.1:8088/#/flow-instance/list
 ```
 
 ![示意图](assets/flow_sample.jpg)
