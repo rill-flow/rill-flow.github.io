@@ -145,3 +145,9 @@ docker exec kafka1 bash -c 'echo {\"message\":\"this is a message from rill-flow
 ![text_to_pic](assets/text_to_pic.svg)
 
 TODO
+
+## 通过文本生成视频
+
+![text_to_video](assets/text_to_video.svg)
+
+TODO
