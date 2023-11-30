@@ -7,7 +7,6 @@ sidebar_position: 2
 ## 流程控制
 
 ![flow_control](assets/flow_control.svg)
-![flow_control](assets/ref_subflow.svg)
 
 [yaml定义文件](https://github.com/weibocom/rill-flow/blob/main/docs/samples/choice-sample.yaml)
 
