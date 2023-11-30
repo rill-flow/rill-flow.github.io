@@ -8,6 +8,7 @@ sidebar_position: 2
 
 ![flow_control](assets/flow_control.svg)
 ![flow_control](assets/ref_subflow.svg)
+
 [yaml定义文件](https://github.com/weibocom/rill-flow/blob/main/docs/samples/choice-sample.yaml)
 
 ```cURL
@@ -21,6 +22,7 @@ curl --location 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=rillFlowSa
 ## 调用API并处理结果
 
 ![call_api](assets/call_api.svg)
+
 [yaml定义文件](https://github.com/weibocom/rill-flow/blob/main/docs/samples/call-api-sample.yaml)
 * 启动sample api服务
 ```Bash
@@ -66,6 +68,7 @@ curl --location 'http://<RILL_FLOW_HOST>/flow/submit.json?descriptor_id=rillFlow
 ## 引用子图
 
 ![ref_subflow](assets/ref_subflow.svg)
+
 [yaml定义文件](https://github.com/weibocom/rill-flow/blob/main/docs/samples/ref-dag.yaml)
 
 ```cURL
