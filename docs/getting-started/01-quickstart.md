@@ -51,6 +51,8 @@ services:
     environment:
       - BACKEND_SERVER=http://rill-flow:8080
       - TRACE_SERVER=http://jaeger:16686
+  sample-executor:
+    image: weibocom/rill-flow-sample:sample-executor 
 EOF
 docker-compose up -d
 ```
@@ -86,18 +88,18 @@ tmp_ui_1          /docker-entrypoint.sh /bin ...   Up      0.0.0.0:8088->80/tcp,
 
 - Step 1: 提交 YAML 文件定义的流程图
 
-```yaml
-curl --location  --request POST 'http://127.0.0.1:8080/flow/bg/manage/descriptor/add_descriptor.json?business_id=rillFlowSimpleTest&feature_name=greet&alias=release' \
+```ccURL
+curl --location  --request POST 'http://127.0.0.1:8080/flow/bg/manage/descriptor/add_descriptor.json?business_id=rillFlowSimple&feature_name=greet&alias=release' \
 --header 'Content-Type: text/plain' \
 --data-raw '---
 version: 1.0.0
-workspace: rillFlowSimpleTest
+workspace: rillFlowSimple
 dagName: greet
 type: flow
 tasks:
   - category: function
     name: Bob 
-    resourceName: http://127.0.0.1:8080/flow/sample/greet.json?user=Bob
+    resourceName: http://sample-executor:8000/greet.json?user=Bob
     pattern: task_sync
     tolerance: false
     next: Alice
@@ -106,7 +108,7 @@ tasks:
         target: "$.input.Bob"
   - category: function
     name: Alice 
-    resourceName: http://127.0.0.1:8080/flow/sample/greet.json?user=Alice
+    resourceName: http://sample-executor:8000/greet.json?user=Alice
     pattern: task_sync
     tolerance: false
     inputMappings:
@@ -118,10 +120,8 @@ tasks:
 - Step 2: 提交流程图执行任务
   
 ```curl
-curl -XPOST 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=rillFlowSimpleTest:greet'  -d '{"Bob":"Hello, I am Bob!", "Alice": "Hi, I am Alice"}' -H 'Content-Type:application/json'
+curl -XPOST 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=rillFlowSimple:greet'  -d '{"Bob":"Hello, I am Bob!", "Alice": "Hi, I am Alice"}' -H 'Content-Type:application/json'
 ```
-
-> 更多流程示例请参考[流程示例](02-sample.md)
 
 ## 查看结果
 
