@@ -20,22 +20,26 @@ http://127.0.0.1:16686/search
 
 ![TRACE](assets/trace_sample.png)
 
+## 关闭 Trace
+
+- 移除服务运行时的环境变量 `RILL_FLOW_TRACE_ENDPOINT`
+
 ## 自定义 Trace
 
 ### Jaeger 数据收集端口修改
 
-- 需要同步修改 Rill Flow 环境变量 `OTEL_EXPORTER_OTLP_ENDPOINT` 中的端口值：
+- 修改服务的环境变量 `RILL_FLOW_TRACE_ENDPOINT` 
 
 ```txt
-OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4317
+- RILL_FLOW_TRACE_ENDPOINT=http://jaeger:4317
 ```
 
 ### Jaeger 可视化界面端口修改
 
-- 同步修改 Rill Flow 中 `application.properties` 文件中的 `rill.flow.trace.exporter.port` 值：
+- 修改`rill-flow-ui`服务的环境变量 `TRACE_SERVER` 
 
 ```txt
-rill.flow.trace.exporter.port=16686
+- TRACE_SERVER=http://jaeger:16686
 ```
 
 ### 隐藏组件在链路中的信息
