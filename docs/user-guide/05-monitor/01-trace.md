@@ -20,22 +20,26 @@ http://127.0.0.1:16686/search
 
 ![TRACE](assets/trace_sample.png)
 
+## 关闭 Trace
+
+- 去除 `docker-compose.yaml` 中 `rill-flow` 服务的环境变量 `RILL_FLOW_TRACE_ENDPOINT`
+
 ## 自定义 Trace
 
 ### Jaeger 数据收集端口修改
 
-- 需要同步修改 Rill Flow 环境变量 `OTEL_EXPORTER_OTLP_ENDPOINT` 中的端口值：
+- 同步修改 `docker-compose.yaml` 中 `rill-flow` 服务的环境变量 `RILL_FLOW_TRACE_ENDPOINT` 的端口号
 
 ```txt
-OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4317
+- RILL_FLOW_TRACE_ENDPOINT=http://jaeger:4317
 ```
 
 ### Jaeger 可视化界面端口修改
 
-- 同步修改 Rill Flow 中 `application.properties` 文件中的 `rill.flow.trace.exporter.port` 值：
+- 同步修改 `docker-compose.yaml` 中 `rill-flow-ui` 服务的环境变量 `TRACE_SERVER` 的端口号
 
 ```txt
-rill.flow.trace.exporter.port=16686
+- TRACE_SERVER=http://jaeger:16686
 ```
 
 ### 隐藏组件在链路中的信息
