@@ -22,13 +22,13 @@ http://127.0.0.1:16686/search
 
 ## 关闭 Trace
 
-- 去除 `docker-compose.yaml` 中 `rill-flow` 服务的环境变量 `RILL_FLOW_TRACE_ENDPOINT`
+- 移除服务运行时的环境变量 `RILL_FLOW_TRACE_ENDPOINT`
 
 ## 自定义 Trace
 
 ### Jaeger 数据收集端口修改
 
-- 同步修改 `docker-compose.yaml` 中 `rill-flow` 服务的环境变量 `RILL_FLOW_TRACE_ENDPOINT` 的端口号
+- 修改服务的环境变量 `RILL_FLOW_TRACE_ENDPOINT` 
 
 ```txt
 - RILL_FLOW_TRACE_ENDPOINT=http://jaeger:4317
@@ -36,7 +36,7 @@ http://127.0.0.1:16686/search
 
 ### Jaeger 可视化界面端口修改
 
-- 同步修改 `docker-compose.yaml` 中 `rill-flow-ui` 服务的环境变量 `TRACE_SERVER` 的端口号
+- 修改`rill-flow-ui`服务的环境变量 `TRACE_SERVER` 
 
 ```txt
 - TRACE_SERVER=http://jaeger:16686
