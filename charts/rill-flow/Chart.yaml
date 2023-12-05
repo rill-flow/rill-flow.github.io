@@ -1,6 +1,6 @@
 apiVersion: v2
 name: rill-flow
-version: 0.0.4
+version: 0.0.5
 description: rill flow orchestration engine
 keywords:
   - rill flow

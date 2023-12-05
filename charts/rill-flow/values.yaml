@@ -49,7 +49,7 @@ rillFlow:
   backend:
     image:
       repository: weibocom/rill-flow
-      tag: 0.0.4
+      tag: 0.1.0
       digest: ""
     env:
       rillFlowDescriptorRedisHost: "rill-flow-redis-master"
@@ -62,7 +62,7 @@ rillFlow:
   ui:
     image:
       repository: weibocom/rill-flow-ui
-      tag: 0.0.4
+      tag: 0.1.0
       digest: ""
     backendServer: "http://rill-flow-service:8080"
     traceServer: "http://rill-flow-jaeger-query:16686"
