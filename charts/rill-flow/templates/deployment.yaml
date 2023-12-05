@@ -19,10 +19,6 @@ spec:
         - name: rill-flow-backend
           image: {{ include "common.images.image" (dict "imageRoot" .Values.rillFlow.backend.image "global" .Values.global)}}
           imagePullPolicy: Always
-          ports:
-            - containerPort: 8080
-              hostPort: 8080
-              protocol: TCP
           env:
             - name: rill_flow_descriptor_redis_host
               value: "{{.Values.rillFlow.backend.env.rillFlowDescriptorRedisHost}}"
