@@ -17,21 +17,19 @@ spec:
     spec:
       containers:
         - name: rill-flow-backend
-          image: 'weibocom/rill-flow'
-          imagePullPolicy: IfNotPresent
+          image: {{ include "common.images.image" (dict "imageRoot" .Values.rillFlow.backend.image "global" .Values.global)}}
+          imagePullPolicy: Always
           env:
             - name: rill_flow_descriptor_redis_host
-              value: {{ .Values.rill_flow.env.rill_flow_descriptor_redis_host }}
+              value: "{{.Values.rillFlow.backend.env.rillFlowDescriptorRedisHost}}:{{.Values.rillFlow.backend.env.rillFlowDescriptorRedisPort}}"
             - name: rill_flow_default_redis_host
-              value: {{ .Values.rill_flow.env.rill_flow_default_redis_host }}
-            - name: rill_flow_trace_exporter_ip
-              value: {{ .Values.rill_flow.env.rill_flow_trace_exporter_ip }}
-            - name: OTEL_EXPORTER_OTLP_ENDPOINT
-              value: {{ .Values.rill_flow.env.OTEL_EXPORTER_OTLP_ENDPOINT }}
+              value: "{{.Values.rillFlow.backend.env.rillFlowDefaultRedisHost}}:{{.Values.rillFlow.backend.env.rillFlowDefaultRedisPort}}"
+            - name: rill_flow_trace_endpoint
+              value: {{.Values.rillFlow.backend.env.rillFlowTraceEndpoint}}
             - name: rill_flow_dag_redo_url
-              value: {{ .Values.rill_flow.env.rill_flow_dag_redo_url }}        
+              value: {{ .Values.rillFlow.backend.env.rillFlowDagRedoUrl}}
             - name: rill_flow_callback_url
-              value: {{.Values.rill_flow.env.rill_flow_callback_url }} 
+              value: {{.Values.rillFlow.backend.env.rillFlowCallbackUrl}}
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
