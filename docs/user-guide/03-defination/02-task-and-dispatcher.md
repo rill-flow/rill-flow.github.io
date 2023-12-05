@@ -65,7 +65,7 @@ retry 结构中共有三个选项：
 - intervalInSeconds：重试间隔秒数，默认值为 0，即：失败后立即重试。
 - multiplier：重试间隔放大引子，默认值为 1，即：不放大。
 
-Rill Flow 在计算任务执行失败后，将以上述配置中的策略进行重试。假设当前已经重试过 n 次，那么下一次重试的间隔时间为：$intervalInSeconds*multiplier^n$，最多重试 maxRetryTimes 次。
+Rill Flow 在计算任务执行失败后，将以上述配置中的策略进行重试。假设当前已经重试过 n 次，那么下一次重试的间隔时间为：`intervalInSeconds*multiplier^n`，最多重试 maxRetryTimes 次。
 
 ## 同步与异步任务模式
 
