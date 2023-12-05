@@ -150,21 +150,16 @@ GET
 
 kafka 触发器用于支持通过 kafka 消息来触发工作流的提交。
 
-Rill Flow 通过如下 java properties 配置监听的 kafka 服务及对应的 groupId，默认情况下配置在 rill-flow-web 模块的 resource/application.properties 文件中：
-
-```properties
-kafka.trigger.servers=127.0.0.1:9092
-kafka.trigger.group.id=rill-flow-group
-```
-
 ## 创建 kafka 触发器任务
 
 通过调用上文描述的“创建触发器任务”接口，传递 `type` 参数值为 kafka，即可创建指定 DAG 图的 kafka 消息触发执行任务。
 
-当提交 kafka 触发任务时，“创建触发器任务”接口的 POST 参数必须具备 topic 参数，如：
+当提交 kafka 触发任务时，“创建触发器任务”接口的 POST 参数必须具备 kafka_server、group_id、topic 参数，用来说明 consumer 的监听参数，如：
 
 ```json
 {
+  "kafka_server": "127.0.0.1:9200",
+  "group_id": "rill-flow-group",
   "topic": "submit_topic"
 }
 ```

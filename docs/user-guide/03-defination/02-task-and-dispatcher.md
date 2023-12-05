@@ -14,20 +14,21 @@ sidebar_position: 2
 
 任务属性在 DAG 图的 YAML 描述文件中的 `tasks` 字段中定义。这些属性包括：
 
-| 属性名               | 必选    | 类型      | 说明                                                                                                     |
-|-------------------|-------|---------|--------------------------------------------------------------------------------------------------------|
-| name              | 是     | string  | 任务的名称                                                                                                 |
-| category          | 是     | string  | 任务的分类，详情见[category](#category)                                                                    |
-| pattern           | 是     | string  | 任务的执行模式，可选值为同步（`task_sync`）或异步（`task_async`）                                            |
-| resourceProtocol  | 否     | string  | 指定派发器资源协议，若为空，则使用 `resourceName` 解析的协议。`resourceProtocol` 与 `resourceName` 不能同时为空 |
-| resourceName      | 否     | string  | 资源描述符，详见[派发器](#派发器)                                                                           |
-| next              | 否     | string  | 下一个任务的名称                                                                                           |
-| inputMappings     | 否     | map     | 输入映射，详见[参数映射](context-and-mapping)                                                              |
-| parameters        | 否     | map     | 任务输入的默认值，若 `inputMapping` 与 `parameters` 同时定义了同一键，则以 `inputMappings` 为准               |
-| outputMappings    | 否     | map     | 输出映射，详见[参数映射](context-and-mapping)                                                              |
-| tolerance         | 否     | boolean | 任务失败时是否忽略并继续执行                                                                               |
-| successConditions | 否     | string  | 定义成功条件，优先级高于 `result_type`，若输出满足所有条件则任务成功，否则失败                              |
-| failConditions    | 否     | string  | 定义失败条件，优先级高于 `successConditions`，若输出满足所有条件则任务失败，否则成功                         |
+| 属性名            | 必选 | 类型    | 说明                                                         |
+| ----------------- | ---- | ------- | ------------------------------------------------------------ |
+| name              | 是   | string  | 任务的名称                                                   |
+| category          | 是   | string  | 任务的分类，详情见[category](#category)                      |
+| pattern           | 是   | string  | 任务的执行模式，可选值为同步（`task_sync`）或异步（`task_async`） |
+| resourceProtocol  | 否   | string  | 指定派发器资源协议，若为空，则使用 `resourceName` 解析的协议。`resourceProtocol` 与 `resourceName` 不能同时为空 |
+| resourceName      | 否   | string  | 资源描述符，详见[派发器](#派发器)                            |
+| next              | 否   | string  | 下一个任务的名称                                             |
+| inputMappings     | 否   | map     | 输入映射，详见[参数映射](context-and-mapping)                |
+| parameters        | 否   | map     | 任务输入的默认值，若 `inputMapping` 与 `parameters` 同时定义了同一键，则以 `inputMappings` 为准 |
+| outputMappings    | 否   | map     | 输出映射，详见[参数映射](context-and-mapping)                |
+| tolerance         | 否   | boolean | 任务失败时是否忽略并继续执行                                 |
+| successConditions | 否   | string  | 定义成功条件，优先级高于 `result_type`，若输出满足所有条件则任务成功，否则失败 |
+| failConditions    | 否   | string  | 定义失败条件，优先级高于 `successConditions`，若输出满足所有条件则任务失败，否则成功 |
+| retry             | 否   | map     | 对于计算类任务，如果执行失败，Rill Flow 将按照该选项配置的策略进行重试，详见[retry](#retry) |
 
 ### category
 
@@ -46,6 +47,25 @@ sidebar_position: 2
 ### pattern
 
 通过 `pattern` 属性可以指定任务在派发器与执行器之间的执行模式，支持同步（`task_sync`）和异步（`task_async`）模式。
+
+### retry
+
+重试策略，对于计算类任务，有可能存在调用失败的情况。该参数设置了失败后的重试策略，例如：
+
+```yaml
+retry:
+  maxRetryTimes:3
+  intervalInSeconds:2
+  multiplier:1
+```
+
+retry 结构中共有三个选项：
+
+- maxRetryTimes：最大重试次数，默认值为 0，即：不重试。
+- intervalInSeconds：重试间隔秒数，默认值为 0，即：失败后立即重试。
+- multiplier：重试间隔放大引子，默认值为 1，即：不放大。
+
+Rill Flow 在计算任务执行失败后，将以上述配置中的策略进行重试。假设当前已经重试过 n 次，那么下一次重试的间隔时间为：`intervalInSeconds*multiplier^n`，最多重试 maxRetryTimes 次。
 
 ## 同步与异步任务模式
 
