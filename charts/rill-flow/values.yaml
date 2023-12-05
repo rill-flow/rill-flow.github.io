@@ -52,9 +52,9 @@ rillFlow:
       tag: 0.1.0
       digest: ""
     env:
-      rillFlowDescriptorRedisHost: "rill-flow-redis-master.rill-flow"
+      rillFlowDescriptorRedisHost: "rill-flow-redis-master"
       rillFlowDescriptorRedisPort: "6379"
-      rillFlowDefaultRedisHost: "rill-flow-redis-master.rill-flow"
+      rillFlowDefaultRedisHost: "rill-flow-redis-master"
       rillFlowDefaultRedisPort: "6379"
       rillFlowTraceEndpoint: "http://rill-flow-jaeger-collector:4317"
       rillFlowDagRedoUrl: "http://rill-flow-service:8080/flow/redo.json"
