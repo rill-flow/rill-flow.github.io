@@ -17,12 +17,13 @@ spec:
     spec:
       containers:
         - name: rill-flow-ui
-          image: 'weibocom/rill-flow-ui'
+          image: {{ include "common.images.image" (dict "imageRoot" .Values.rillFlow.ui.image "global" .Values.global)}}
           imagePullPolicy: IfNotPresent
           env:
             - name: BACKEND_SERVER
-              value: {{ .Values.rill_flow.env.BACKEND_SERVER }}
-        
+              value: {{ .Values.rillFlow.ui.backendServer}}
+            - name: TRACE_SERVER
+              value: {{ .Values.rillFlow.ui.traceServer}}
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
