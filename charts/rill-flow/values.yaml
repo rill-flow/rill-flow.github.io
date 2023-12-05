@@ -18,7 +18,6 @@ redis:
 ## @param jaeger.query.enabled 部署jaeger服务是否单独启动query组件, 默认为`false`
 ## @param jaeger.agent.enabled 部署jaeger服务是否单独启动agent组件, 默认为`false`
 ## @param jaeger.collector.enabled 部署jaeger服务是否单独启动collector组件, 默认为`false`
-## @param jaeger.cassandra.enabled 部署jaeger服务是否单独启动cassandra组件, 默认为`false`
 jaeger:
   enabled: true
   allInOne:
@@ -42,7 +41,8 @@ jaeger:
 ## @param rillFlow.backend.env.rillFlowTraceEndpoint trace数据采集器地址，默认为jaeger collector组件的k8s service地址
 ## @param rillFlow.backend.env.rillFlowDagRedoUrl 流程重做接口地址，默认为Rill Flow后端服务的k8s service地址
 ## @param rillFlow.backend.env.rillFlowCallbackUrl 任务节点执行结果回调通知接口地址，默认为Rill Flow后端服务的k8s service地址
-## @param rillFlow.ui.backendServer Rill Flow后端服务地址，供前端页面调用使用，默认为redis组件的k8s service地址
+## @param rillFlow.ui.backendServer Rill Flow后端服务地址，供前端页面调用使用，默认为Rill Flow后端服务的k8s service地址
+## @param rillFlow.ui.traceServer Rill Flow trace查询服务地址，供前端页面调用使用，默认为jaeger query组件的k8s service地址
 global:
   imageRegistry: docker.io
 rillFlow:
