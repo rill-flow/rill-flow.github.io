@@ -19,6 +19,9 @@ spec:
         - name: rill-flow-ui
           image: {{ include "common.images.image" (dict "imageRoot" .Values.rillFlow.ui.image "global" .Values.global)}}
           imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              protocol: TCP
           env:
             - name: BACKEND_SERVER
               value: {{ .Values.rillFlow.ui.backendServer}}

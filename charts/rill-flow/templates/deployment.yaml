@@ -19,11 +19,19 @@ spec:
         - name: rill-flow-backend
           image: {{ include "common.images.image" (dict "imageRoot" .Values.rillFlow.backend.image "global" .Values.global)}}
           imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              hostPort: 8080
+              protocol: TCP
           env:
             - name: rill_flow_descriptor_redis_host
-              value: "{{.Values.rillFlow.backend.env.rillFlowDescriptorRedisHost}}:{{.Values.rillFlow.backend.env.rillFlowDescriptorRedisPort}}"
+              value: "{{.Values.rillFlow.backend.env.rillFlowDescriptorRedisHost}}"
+            - name: rill_flow_descriptor_redis_port
+              value: "{{.Values.rillFlow.backend.env.rillFlowDescriptorRedisPort}}"
             - name: rill_flow_default_redis_host
-              value: "{{.Values.rillFlow.backend.env.rillFlowDefaultRedisHost}}:{{.Values.rillFlow.backend.env.rillFlowDefaultRedisPort}}"
+              value: "{{.Values.rillFlow.backend.env.rillFlowDefaultRedisHost}}"
+            - name: rill_flow_default_redis_port
+              value: "{{.Values.rillFlow.backend.env.rillFlowDefaultRedisPort}}"
             - name: rill_flow_trace_endpoint
               value: {{.Values.rillFlow.backend.env.rillFlowTraceEndpoint}}
             - name: rill_flow_dag_redo_url

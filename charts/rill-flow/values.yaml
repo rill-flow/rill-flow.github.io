@@ -56,13 +56,13 @@ rillFlow:
       rillFlowDescriptorRedisPort: "6379"
       rillFlowDefaultRedisHost: "rill-flow-redis-master.rill-flow"
       rillFlowDefaultRedisPort: "6379"
-      rillFlowTraceEndpoint: "http://rill-flow-jaeger-collector:4317"
-      rillFlowDagRedoUrl: "http://rill-flow-service:8080/flow/redo.json"
-      rillFlowCallbackUrl: "http://rill-flow-service:8080/flow/finish.json"
+      rillFlowTraceEndpoint: "http://rill-flow-jaeger-collector.rill-flow:4317"
+      rillFlowDagRedoUrl: "http://rill-flow-service.rill-flow:8080/flow/redo.json"
+      rillFlowCallbackUrl: "http://rill-flow-service.rill-flow:8080/flow/finish.json"
   ui:
     image:
       repository: weibocom/rill-flow-ui
       tag: 0.1.0
       digest: ""
-    backendServer: "http://rill-flow-service:8080"
-    traceServer: "http://rill-flow-jaeger-query:16686"
+    backendServer: "http://rill-flow-service.rill-flow:8080"
+    traceServer: "http://rill-flow-jaeger-query.rill-flow:16686"
