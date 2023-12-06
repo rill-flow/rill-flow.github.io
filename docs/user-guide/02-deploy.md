@@ -111,3 +111,4 @@ docker run -d --name rill-flow-ui -p 8088:80 -p 8089:8089 weibocom/rill-flow-ui:
 
 * `${redis_ip}`和`${redis_port}`分别为生产环境Redis的IP和端口。
 * `${trace_server}`为生产环境Jaeger查询地址。
+* `${backend_server}`为Rill Flow生产环境的后端服务地址
