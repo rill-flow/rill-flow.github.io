@@ -19,7 +19,7 @@ redis:
 ## @param jaeger.agent.enabled 部署jaeger服务是否单独启动agent组件, 默认为`false`
 ## @param jaeger.collector.enabled 部署jaeger服务是否单独启动collector组件, 默认为`false`
 jaeger:
-  enabled: true
+  enabled: false
   allInOne:
     enabled: true
   query:
