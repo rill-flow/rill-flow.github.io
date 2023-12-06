@@ -135,11 +135,29 @@ HTTP 请求返回的 `json` 结构体将被赋值给 `$.output` 变量。
 
 #### ChatGPT 派发器
 
-TODO
+Rill Flow 支持 OpenAI 的 [ChatGPT 模型](https://openai.com/chatgpt)派发器。使用此派发器需要拥有 OpenAI 模型调用 Apikey。具体信息可参考[OpenAI ChatGPT 模型文档](https://platform.openai.com/api-keys)
+
+##### 任务属性
+
+| 参数               | 参数值       | 说明 |
+|------------------|-----------|----|
+| resourceProtocol | chatgpt | 使用 ChatGPT 派发器 |
+
+##### 输入参数
+
+| 键              | 值类型    | 说明                                                                                          |
+|---------------|--------|---------------------------------------------------------------------------------------------|
+| apikey        | string | Apikey 用于模型调用                                                                           |
+| model         | string | 模型名称，详见OpenAI[支持的模型列表](https://platform.openai.com/docs/models) |
+| prompt       | string | 请求模型的文本内容                                                                             |
+
+##### 输出参数
+
+ChatGPT请求返回的 `json` 结构体将被赋值给 `$.output.result` 变量。其他返回值可参考[OpenAI SDK文档](https://platform.openai.com/docs/guides/text-generation/chat-completions-response-format)。
 
 #### 阿里云模型服务派发器
 
-Rill Flow 支持阿里云的[灵积模型服务](https://help.aliyun.com/zh/dashscope)派发器。使用此派发器需要拥有阿里云通义千问的模型调用 Apikey，具体信息可参考[阿里云灵积模型服务文档](https://help.aliyun.com/zh/dashscope/developer-reference/activate-dashscope-and-create-an-api-key)。
+Rill Flow 支持阿里云的[灵积模型服务](https://help.aliyun.com/zh/dashscope)派发器。使用此派发器需要拥有阿里云通义千问的模型调用 Apikey。具体信息可参考[阿里云灵积模型服务文档](https://help.aliyun.com/zh/dashscope/developer-reference/activate-dashscope-and-create-an-api-key)。
 
 ##### 任务属性
 
