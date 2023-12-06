@@ -28,7 +28,7 @@ spec:
               value: "{{.Values.rillFlow.backend.env.rillFlowDefaultRedisHost}}"
             - name: rill_flow_default_redis_port
               value: "{{.Values.rillFlow.backend.env.rillFlowDefaultRedisPort}}"
-            - name: rill_flow_trace_endpoint
+            - name: RILL_FLOW_TRACE_ENDPOINT
               value: {{.Values.rillFlow.backend.env.rillFlowTraceEndpoint}}
             - name: rill_flow_dag_redo_url
               value: {{ .Values.rillFlow.backend.env.rillFlowDagRedoUrl}}
