@@ -49,7 +49,7 @@ rillFlow:
   backend:
     image:
       repository: weibocom/rill-flow
-      tag: 0.1.0
+      tag: 0.1.4
       digest: ""
     env:
       rillFlowDescriptorRedisHost: "rill-flow-redis-master"
