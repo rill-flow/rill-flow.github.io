@@ -12,3 +12,7 @@ spec:
       port: 80
       targetPort: 80
       protocol: TCP
+    - name: frontend-trace-query-port
+      port: 8089
+      targetPort: 8089
+      protocol: TCP

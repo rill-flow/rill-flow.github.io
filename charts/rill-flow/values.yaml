@@ -19,7 +19,7 @@ redis:
 ## @param jaeger.agent.enabled 部署jaeger服务是否单独启动agent组件, 默认为`false`
 ## @param jaeger.collector.enabled 部署jaeger服务是否单独启动collector组件, 默认为`false`
 jaeger:
-  enabled: false
+  enabled: true
   allInOne:
     enabled: true
   query:
@@ -34,6 +34,7 @@ jaeger:
       cluster_size: 1
 
 ## Rill Flow 服务启动配置
+## @param rillFlow.trace.enabled 部署Rill Flow 是否启用trace链路跟踪，默认为`true`：默认启用trace链路跟踪
 ## @param rillFlow.backend.env.rillFlowDescriptorRedisHost 储存流程图(DAG)信息的redis地址，默认为redis组件的k8s service地址
 ## @param rillFlow.backend.env.rillFlowDescriptorRedisPort 储存流程图(DAG)信息的redis端口，默认为`6379`
 ## @param rillFlow.backend.env.rillFlowDefaultRedisHost 储存Rill Flow 其他信息的redis地址，默认为redis组件的k8s service地址
@@ -46,6 +47,8 @@ jaeger:
 global:
   imageRegistry: docker.io
 rillFlow:
+  trace:
+    enabled: true
   backend:
     image:
       repository: weibocom/rill-flow

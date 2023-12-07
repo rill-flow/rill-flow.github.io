@@ -22,8 +22,10 @@ spec:
           env:
             - name: BACKEND_SERVER
               value: {{ .Values.rillFlow.ui.backendServer}}
+            {{- if .Values.rillFlow.trace.enabled }}
             - name: TRACE_SERVER
               value: {{ .Values.rillFlow.ui.traceServer}}
+            {{- end}}
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
