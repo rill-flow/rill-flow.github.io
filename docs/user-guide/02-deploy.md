@@ -48,12 +48,14 @@ rill-flow-ui-858bffb6c5-zhr2n     1/1     Running   0             10m
 
 ```shell
 helm upgrade --install rill-flow rill-flow/rill-flow -n=rill-flow --create-namespace \
---set redis.enabled=false --set rillFlow.backend.env.rillFlowDescriptorRedisHost=${redis_host} \
+--set redis.enabled=false \
+--set rillFlow.backend.env.rillFlowDescriptorRedisHost=${redis_host} \
 --set rillFlow.backend.env.rillFlowDescriptorRedisPort=${redis_port} \
 --set rillFlow.backend.env.rillFlowDefaultRedisHost=${redis_host} \
 --set rillFlow.backend.env.rillFlowDefaultRedisPort=${redis_port} \
---set jaeger.enabled=false --set rillFlow.backend.env.rillFlowTraceEndpoint=${jaeger_endpoint} \
---set rillFlow.ui.traceServer=${jaeger_query_server}
+--set jaeger.enabled=false \
+--set rillFlow.backend.env.rillFlowTraceEndpoint=${jaeger_endpoint} \
+--set rillFlow.backend.env.rillFlowTraceQueryUrl=${jaeger_query_server}
 ```
 
 注释：
@@ -71,6 +73,7 @@ helm部署Rill Flow常用参数说明如下：
 |rillFlow.backend.env.rillFlowDefaultRedisHost|rill-flow-redis-master(redis组件的k8s service地址)|储存Rill Flow 其他信息的redis地址|
 |rillFlow.backend.env.rillFlowDefaultRedisPort|6379|储存Rill Flow 其他信息的redis端口|
 |rillFlow.backend.env.rillFlowTraceEndpoint |http://rill-flow-jaeger-collector:4317 (jaeger collector组件的k8s service地址)|race数据采集服务地址|
+|rillFlow.backend.env.rillFlowTraceQueryUrl|http://rill-flow-jaeger-query:16686(jaeger query组件的k8s service地址)|trace查询服务地址，供前端页面使用|
 |rillFlow.ui.backendServer|http://rill-flow-service:8080 (Rill Flow后端服务的k8s service地址)|Rill Flow后端服务地址，供前端页面调用使用|
 |redis.enable|true|部署Rill Flow服务是否启动redis|
 |redis.auth.enabled|false|redis启动是否开启密码认证|
@@ -80,31 +83,11 @@ helm部署Rill Flow常用参数说明如下：
 
 ## Docker 部署
 
-若没有Redis环境，可以用以下命令部署Redis（仅适用于开发和测试环境）：
-
-```shell
-docker run -d --name rill-flow-redis -p 6379:6379 redis:latest
-```
-
-若需要开启Trace功能进行全链路跟踪，则需部署Jaeger组件，开发测试环境可用以下命令部署Jaeger：
-
-```shell
-docker run -d --name rill-flow-jaeger -p 16686:16686 -p 4317:4317 -e COLLECTOR_OTLP_ENABLED=true jaegertracing/all-in-one:latest
-```
-
-启动Rill Flow容器：
-
-```shell
-docker run -d --name rill-flow -p 8080:8080 weibocom/rill-flow:latest -e RILL_FLOW_TRACE_ENDPOINT=http://127.0.0.1:4379
-docker run -d --name rill-flow-ui -p 8088:80 -p 8089:8089 weibocom/rill-flow-ui:latest -e TRACE_SERVER=http://127.0.0.1:16686 -e BACKEND_SERVER=http://127.0.0.1:8080
-```
-
 生产环境下，若有正式的Redis和Jaeger服务，可参考以下命令通过修改环境变量变更为线上地址：
 
 ```shell
-docker run -d --name rill-flow -p 8080:8080 weibocom/rill-flow:latest -e rill_flow_descriptor_redis_host=${redis_ip} -e rill_flow_descriptor_redis_port=${redis_port} -e rill_flow_default_redis_host=${redis_ip} -e rill_flow_default_redis_port=${redis_port}
-
-docker run -d --name rill-flow-ui -p 8088:80 -p 8089:8089 weibocom/rill-flow-ui:latest -e TRACE_SERVER=${trace_server} -e BACKEND_SERVER=${backend_server}
+docker run -d --name rill-flow -p 8080:8080 -e rill_flow_descriptor_redis_host=${redis_ip} -e rill_flow_descriptor_redis_port=${redis_port} -e rill_flow_default_redis_host=${redis_ip} -e rill_flow_default_redis_port=${redis_port} -e rill_flow_trace_query_url=${trace_server} -e rill_flow_callback_url=${callback_url}  weibocom/rill-flow:latest  && \
+docker run -d --name rill-flow-ui -p 8088:80 -e BACKEND_SERVER=${backend_server}  weibocom/rill-flow-ui:latest 
 ```
 
 注释：
@@ -112,3 +95,4 @@ docker run -d --name rill-flow-ui -p 8088:80 -p 8089:8089 weibocom/rill-flow-ui:
 * `${redis_ip}`和`${redis_port}`分别为生产环境Redis的IP和端口。
 * `${trace_server}`为生产环境Jaeger查询地址。
 * `${backend_server}`为Rill Flow生产环境的后端服务地址
+* `${callback_url}`为Rill Flow生产环境的后端服务回调地址
