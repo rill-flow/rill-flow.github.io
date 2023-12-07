@@ -31,7 +31,7 @@ services:
       - RILL_FLOW_DEFAULT_REDIS_HOST=cache
       - RILL_FLOW_TRACE_ENDPOINT=http://jaeger:4317
       - RILL_FLOW_CALLBACK_URL=http://rill-flow:8080/flow/finish.json
-      - RILL_FLOW_TRACE_QUERY_URL=http://jaeger:16686
+      - RILL_FLOW_TRACE_QUERY_HOST=http://jaeger:16686
   cache:
     image: redis:6.2-alpine
     restart: always
