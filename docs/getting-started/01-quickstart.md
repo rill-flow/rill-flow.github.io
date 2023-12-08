@@ -132,7 +132,7 @@ curl -XPOST 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=rillFlowSimple
 http://127.0.0.1:8088/#/flow-instance/list
 ```
 
-![示意图](assets/flow_sample.jpg)
+![示意图](/img/flow_sample.jpg)
 
 > 更多关于查看结果的说明可以参考[执行状态](../user-guide/04-execution/03-status.md)
 
