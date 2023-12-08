@@ -10,13 +10,14 @@ sidebar_position: 7
 
 - **URL**：/flow/bg/manage/descriptor/add_descriptor.json
 - **请求方式**：POST
-- **请求参数说明**：
+- **请求参数说明**
 
-  | 参数名称 | 必填 |  类型 | 说明 |
-      |------|------|-------|------|
-  | business_id  | 是 | String | 工作流业务ID |
-  | feature_name  | 是 | String | 工作流服务名称 |
-  | alias  | 是 | String | 工作流别名 |
+
+| 参数名称 | 必填 |  类型 | 说明 |
+|------|------|-------|------|
+| business_id  | 是 | String | 工作流业务ID |
+| feature_name  | 是 | String | 工作流服务名称 |
+| alias  | 是 | String | 工作流别名 |
 
 - **请求Body参数**：工作流yaml定义
 
@@ -68,13 +69,13 @@ tasks:
 
 - **URL**：/flow/submit.json
 - **请求方式**：POST
-- **请求参数说明**：
+- **请求参数说明**
 
-  | 参数名称 | 必填 |  类型 | 说明 |
-    |------|------|-------|------|
-  | descriptor_id  | 是 | String | 工作流ID |
-  | callback  | 否 | String | 执行完成后的回调地址 |
-  | resource_check  | 否 | String | 资源检测规则 |
+| 参数名称 | 必填 |  类型 | 说明 |
+|------|------|-------|------|
+| descriptor_id  | 是 | String | 工作流ID |
+| callback  | 否 | String | 执行完成后的回调地址 |
+| resource_check  | 否 | String | 资源检测规则 |
 
 - **请求Body参数**：工作流执行的context信息
 
@@ -96,14 +97,14 @@ curl -XPOST 'http://127.0.0.1:8080/2/flow/submit.json?descriptor_id=demoFlowTest
 
 - **URL**：/flow/finish.json
 - **请求方式**：POST
-- **请求参数说明**：
+- **请求参数说明**
 
-  | 参数名称 | 必填 |  类型 | 说明 |
-    |------|------|-------|------|
-  | executionId  | 是 | String | 执行ID |
-  | taskName  | 是 | String | 任务名称 |
+| 参数名称 | 必填 |  类型 | 说明 |
+|------|------|-------|------|
+| executionId  | 是 | String | 执行ID |
+| taskName  | 是 | String | 任务名称 |
 
-- **请求Body参数示例**：
+- **请求Body参数示例**
 
 ```txt
 {
@@ -130,12 +131,12 @@ curl -XPOST 'http://127.0.0.1:8080/2/flow/submit.json?descriptor_id=demoFlowTest
 
 - **URL**：/flow/get.json
 - **请求方式**：GET
-- **请求参数说明**：
+- **请求参数说明**
 
-  | 参数名称 | 必填 |  类型 | 说明 |
-    |------|------|-------|------|
-  | execution_id  | 是 | String | 工作流执行ID |
-  | brief  | 否 | boolean | 是否返回简略信息（true：只返回工作流本身执行情况，false：返回工作流及各节点执行情况） |
+| 参数名称 | 必填 |  类型 | 说明 |
+|------|------|-------|------|
+| execution_id  | 是 | String | 工作流执行ID |
+| brief  | 否 | boolean | 是否返回简略信息（true：只返回工作流本身执行情况，false：返回工作流及各节点执行情况） |
 
 - **返回结果**：
 

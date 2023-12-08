@@ -82,7 +82,6 @@ curl --location 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=rillFlowSa
 ## 接收kafka消息后调用AIGC翻译文本
 
 ![call_aigc_translate](assets/call_aigc_translate.svg)
-![ref_subflow](assets/ref_subflow.svg)
 
 [yaml定义文件](https://github.com/weibocom/rill-flow/blob/main/docs/samples/kafka-translate.yaml)
 

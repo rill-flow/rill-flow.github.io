@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## 系统架构图
 
-![架构图](assets/flow_arch.png)
+![架构图](assets/flow_arch.svg)
 
 ## 架构说明
 
