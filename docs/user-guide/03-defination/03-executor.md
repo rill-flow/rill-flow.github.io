@@ -53,3 +53,4 @@ Rill Flow 使用执行器（Executor）的概念，实现了任务流程编排�
 ## 支持的执行器
 
 - [python](https://github.com/weibocom/rill-flow/tree/main/executors/fastapi/README.md)
+- [java](https://github.com/weibocom/rill-flow/tree/main/executors/spring-boot/README.md)
