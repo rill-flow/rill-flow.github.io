@@ -151,7 +151,7 @@ docker exec kafka1 bash -c 'echo {\"message\":\"this is a message from rill-flow
 
 ![text_to_video](assets/text_to_video.svg)
 
-[yaml定义文件](https://github.com/weibocom/rill-flow/blob/main/docs/samples/txt2video.yaml)
+[yaml定义文件](https://github.com/weibocom/rill-flow/blob/main/docs/samples/txt2video/txt2video.yaml)
 
 [docker-compose部署定义文件](https://github.com/weibocom/rill-flow/blob/main/docs/samples/txt2video-docker-compose.yaml)
 
