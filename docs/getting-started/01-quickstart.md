@@ -24,6 +24,8 @@ services:
     depends_on:
       - cache
       - jaeger
+    links:
+      - rill-flow-mysql
     ports:
       - "8080:8080"
     environment:
@@ -32,6 +34,19 @@ services:
       - RILL_FLOW_TRACE_ENDPOINT=http://jaeger:4317
       - RILL_FLOW_CALLBACK_URL=http://rill-flow:8080/flow/finish.json
       - RILL_FLOW_TRACE_QUERY_HOST=http://jaeger:16686
+  rill-flow-mysql:
+    image: mariadb:10.6.4-focal
+    stdin_open: true
+    tty: true
+    container_name: rill-flow-mysql
+    restart: always
+    command: --bind-address=0.0.0.0 --default-authentication-plugin=mysql_native_password
+    volumes:
+        - ./docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=rill_flow
+      - MYSQL_ROOT_HOST=%
   cache:
     image: redis:6.2-alpine
     restart: always
