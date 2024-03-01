@@ -40,9 +40,9 @@ services:
     tty: true
     container_name: rill-flow-mysql
     restart: always
-    command: --init-file /data/application/init.sql --bind-address=0.0.0.0 --default-authentication-plugin=mysql_native_password
+    command: --bind-address=0.0.0.0 --default-authentication-plugin=mysql_native_password
     volumes:
-        - ./docker/init.sql:/data/application/init.sql
+        - ./docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql
     environment:
       - MYSQL_ROOT_PASSWORD=secret
       - MYSQL_DATABASE=rill_flow
