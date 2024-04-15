@@ -44,7 +44,7 @@ OpenFaas gateway 的 `namespace`、`service` 和 `port` 可以通过查看 [Open
 
 除此以外，Rill Flow 还提供了一个方便业务服务调用的异步回调地址，下面是一个回调的例子：
 
-> http://{rill-flow-server-host}/flow/finish.json
+> http://{rill-flow-server-host}/flow/trigger.json
 
 为了方便调用，这个回调接口同时支持 GET 和 POST 两种方式调用。
 
@@ -75,7 +75,7 @@ inputMappings:
 
 这个参数的默认值为：
 
-> http://{rill-flow-server-host}/flow/finish.json?execution_id={current-execution-id}&task_name=task1
+> http://{rill-flow-server-host}/flow/trigger.json?execution_id={current-execution-id}&task_name=task1
 
 如果你需要在该任务接收到的 trigger_url 中额外添加某些参数，可以通过下面示例中的方式来添加：
 
@@ -87,5 +87,5 @@ inputMappings:
 
 这样，最终生成的 trigger_url 就会变为：
 
-> http://{rill-flow-server-host}/flow/finish.json?execution_id={current-execution-id}&task_name=task1&context=%7B%22key%22%3A%20%22value%22%7D
+> http://{rill-flow-server-host}/flow/trigger.json?execution_id={current-execution-id}&task_name=task1&context=%7B%22key%22%3A%20%22value%22%7D
 
