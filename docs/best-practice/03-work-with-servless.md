@@ -9,7 +9,7 @@ Rill Flow中支持条件、循环、跳转等逻辑的流程控制节点，通�
 
 ## 对接到Serverless网关
 Rill Flow 以工作流的形式，对包括云函数在内的云服务进行统一编排，支持条件、循环、跳转等逻辑的流程控制节点。任务通过 HTTP 请求转发到 Serverless 网关，实现 Serverless 业务的集成。详情可以参考[HTTP 派发器](../user-guide/03-defination/02-task-and-dispatcher.md#http-协议派发器)。
-- 同时也可以通过自定义派发器实现 `Serverless` 专用派发器，开发自定义插件详情参考[创建插件](../develop/01-plugin/02-create-plugin.md)
+> 同时也可以通过自定义派发器实现 `Serverless` 专用派发器，开发自定义插件详情参考[创建插件](../develop/01-plugin/02-create-plugin.md)
 
 以文本生成视频为例，其中文本获取、文本拆分、文本润色、文本配音、口型校对等服务是一个个独立的函数，Rill Flow 可以通过流程编排将各个函数按照项目需求按需编排连线，减少开发者写一些不必要的“胶水代码”。可以根据不同时期的不同需求，修改 DAG 图来快速实现产品需求迭代开发。
 
@@ -44,7 +44,7 @@ OpenFaas gateway 的 `namespace`、`service` 和 `port` 可以通过查看 [Open
 
 除此以外，Rill Flow 还提供了一个方便业务服务调用的异步回调地址，下面是一个回调的例子：
 
-- http://{rill-flow-server-host}/flow/finish.json
+> http://{rill-flow-server-host}/flow/finish.json
 
 为了方便调用，这个回调接口同时支持 GET 和 POST 两种方式调用。
 
@@ -75,7 +75,7 @@ inputMappings:
 
 这个参数的默认值为：
 
-- http://{rill-flow-server-host}/flow/finish.json?execution_id={current-execution-id}&task_name=task1
+> http://{rill-flow-server-host}/flow/finish.json?execution_id={current-execution-id}&task_name=task1
 
 如果你需要在该任务接收到的 trigger_url 中额外添加某些参数，可以通过下面示例中的方式来添加：
 
@@ -87,5 +87,5 @@ inputMappings:
 
 这样，最终生成的 trigger_url 就会变为：
 
-- http://{rill-flow-server-host}/flow/finish.json?execution_id={current-execution-id}&task_name=task1&context=%7B%22key%22%3A%20%22value%22%7D
+> http://{rill-flow-server-host}/flow/finish.json?execution_id={current-execution-id}&task_name=task1&context=%7B%22key%22%3A%20%22value%22%7D
 
