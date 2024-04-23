@@ -105,7 +105,7 @@ http://www.sample.com/callback.json
 
 Rill Flow 支持以下类型的派发器：
 
-#### HTTP 协议派发器
+#### HTTP协议派发器
 
 HTTP 派发器用于转发任务信息，发起 HTTP 请求时使用 `application-json` 作为 `content-type`，并以接收到的 `json` 字符串作为输出。
 
