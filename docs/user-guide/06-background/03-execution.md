@@ -12,7 +12,8 @@ sidebar_position: 2
 
 ## 执行详情查看
 ### 工作流执行详情具体内容：
-  * [上下文信息](../../user-guide/03-defination/04-context-and-mapping.md#上下文)，执行进度，[执行状态](../04-execution/03-status.md#流程状态)等信息
+  * [上下文信息](../../user-guide/03-defination/04-context-and-mapping.md#上下文)
+  * 执行进度，[执行状态](/docs/user-guide/04-execution/03-status.md#任务状态)等信息
   * 任务[Trace信息](../05-monitor/01-trace.md)
   * 节点的执行信息
 
