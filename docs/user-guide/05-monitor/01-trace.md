@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Trace 链路跟踪
+# Trace链路跟踪
 
 ## 概述
 
