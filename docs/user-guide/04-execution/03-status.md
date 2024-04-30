@@ -30,4 +30,4 @@ sidebar_position: 3
 
 ## 后台查询
 
-TODO
+详见[执行管理](../06-background/03-execution.md#执行详情查看)。
