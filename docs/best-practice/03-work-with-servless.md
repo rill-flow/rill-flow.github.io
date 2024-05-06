@@ -38,13 +38,11 @@ OpenFaas gateway 的 `namespace`、`service` 和 `port` 可以通过查看 [Open
 
 ### 异步任务回调地址
 
-对于异步调用，Rill Flow 会在 header 中添加 `X-Callback-Url` 字段，该字段的值为当前 task 执行结束后的回调地址，函数需要在执行完成后，通过向该地址发送 POST 请求，通知 Rill Flow 该 task 已经执行完成。可以参考 [异步模式](../user-guide/03-defination/02-task-and-dispatcher.md#异步模式task_async)
-
-除此以外，Rill Flow 还提供了一个方便业务服务调用的异步回调地址，下面是一个回调的例子：
+对于异步调用，Rill Flow 会在 header 中添加 `X-Callback-Url` 字段，该字段的值为当前 task 执行结束后的回调地址，函数需要在执行完成后，通过向该地址发送请求，通知 Rill Flow 该 task 已经执行完成。可以参考 [异步模式](../user-guide/03-defination/02-task-and-dispatcher.md#异步模式task_async)，具体的回调地址为：
 
 > http://\{rill-flow-server-host}/flow/trigger.json
 
-为了方便调用，这个回调接口同时支持 GET 和 POST 两种方式调用。
+这个回调接口同时支持 GET 和 POST 两种方式调用。
 
 接口的 url query 请求参数如下：
 
@@ -75,7 +73,7 @@ inputMappings:
 
 > http://\{rill-flow-server-host}/flow/trigger.json?execution_id=\{current-execution-id}&task_name=task1
 
-如果你需要在该任务接收到的 trigger_url 中额外添加某些参数，可以通过下面示例中的方式来添加：
+如果你需要在该任务接收到的 trigger_url 中额外添加某些参数，可以通过在 trigger_url 后面添加 ? 来将参数以 key1=value1&key2=value2 的方式添加到 trigger_url 中：
 
 ```yaml
 inputMappings:
@@ -86,4 +84,3 @@ inputMappings:
 这样，最终生成的 trigger_url 就会变为：
 
 > http://\{rill-flow-server-host}/flow/trigger.json?execution_id=\{current-execution-id}&task_name=task1&context=%7B%22key%22%3A%20%22value%22%7D
-
