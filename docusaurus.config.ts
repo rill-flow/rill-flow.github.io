@@ -70,6 +70,12 @@ const config: Config = {
                     position: 'left',
                     label: 'Docs',
                 },
+               {
+                  href: 'https://github.com/weibocom/rill-flow',
+                  'aria-label': 'GitHub',
+                  className: 'header-github-link',
+                  position: 'right',
+                },
                 {
                     type: 'localeDropdown',
                     position: 'right',

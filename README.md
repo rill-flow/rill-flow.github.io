@@ -30,6 +30,13 @@ $ yarn build
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
+### i18n
+
+```ignorelang
+npm run crowdin download
+npm run crowdin upload
+```
+
 ## Contribute
 
 [Contribute to Rill Flow](https://rill-flow.github.io/docs/develop/document).
