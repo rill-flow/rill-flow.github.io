@@ -72,7 +72,7 @@ helm部署Rill Flow常用参数说明如下：
 |rillFlow.backend.env.rillFlowDescriptorRedisPort|6379|储存流程图(DAG)信息的redis端口|
 |rillFlow.backend.env.rillFlowDefaultRedisHost|rill-flow-redis-master(redis组件的k8s service地址)|储存Rill Flow 其他信息的redis地址|
 |rillFlow.backend.env.rillFlowDefaultRedisPort|6379|储存Rill Flow 其他信息的redis端口|
-|rillFlow.backend.env.rillFlowTraceEndpoint |http://rill-flow-jaeger-collector:4317 (jaeger collector组件的k8s service地址)|race数据采集服务地址|
+|rillFlow.backend.env.rillFlowTraceEndpoint |http://rill-flow-jaeger-collector:4317 (jaeger collector组件的k8s service地址)|trace数据采集服务地址|
 |rillFlow.backend.env.rillFlowTraceQueryHost|http://rill-flow-jaeger-query:16686(jaeger query组件的k8s service地址)|trace查询服务地址，供前端页面使用|
 |rillFlow.ui.backendServer|http://rill-flow-service:8080 (Rill Flow后端服务的k8s service地址)|Rill Flow后端服务地址，供前端页面调用使用|
 |redis.enable|true|部署Rill Flow服务是否启动redis|
