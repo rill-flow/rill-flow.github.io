@@ -10,6 +10,36 @@ Rill Flow 支持在流程运行过程中动态控制流程运行路径，类似�
 
 流程控制节点包括以下几种类型：
 
+### switch
+
+`swicth` 节点用于在 DAG 图运行时，在多个后续任务中，根据条件选择执行某些任务，并跳过不符合条件的任务。
+
+```yaml
+workspace: default
+dagName: switch
+alias: release
+type: flow
+tasks:
+  - name: caseA
+    category: pass
+  - name: caseB
+    category: pass
+  - name: caseC
+    category: pass
+  - name: switchTask
+    switches:
+      - next: caseA
+        condition: $.input.[?(@.input == 0)]
+      - next: caseB
+        condition: $.input.[?(@.input == 5)]
+      - next: caseC
+        condition: $.input.[?(@.input == 10)]
+    inputMappings:
+      - source: $.context.input
+        target: $.input.input
+    category: switch
+```
+
 ### choice
 
 `choice` 节点用于在 DAG 图运行时，在多个子任务中根据条件选择执行特定的子任务。它通过 `tasks` 字段定义子任务组，`condition` 字段则使用 JsonPath 格式定义执行该组子任务的条件。
