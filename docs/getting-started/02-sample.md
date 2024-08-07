@@ -8,10 +8,10 @@ sidebar_position: 2
 
 ![flow_control](assets/flow_control.svg)
 
-[yaml定义文件](https://github.com/weibocom/rill-flow/blob/main/docs/samples/choice-sample.yaml)
+[yaml定义文件](https://github.com/weibocom/rill-flow/blob/main/docs/samples/switch-sample.yaml)
 
 ```cURL
-curl --location 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=rillFlowSample:choiceSample' \
+curl --location 'http://127.0.0.1:8080/flow/submit.json?descriptor_id=rillFlowSample:switchSample' \
 --header 'Content-Type: application/json' \
 --data '{
      "input_num":10
