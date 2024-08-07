@@ -40,48 +40,6 @@ tasks:
     category: switch
 ```
 
-### choice
-
-`choice` 节点用于在 DAG 图运行时，在多个子任务中根据条件选择执行特定的子任务。它通过 `tasks` 字段定义子任务组，`condition` 字段则使用 JsonPath 格式定义执行该组子任务的条件。
-
-```yaml
-category: choice
-name: A
-inputMappings:
-  - target: $.input.status
-    source: $.context.status
-  - target: $.input.path
-    source: $.context.path
-outputMappings:
-  - target: $.context.path
-    source: $.output.path
-choices:
-  - condition: $.input.[?(@.status == "succeed")]
-    tasks: 
-      - category: function
-        resourceName: protocol://content
-        pattern: task_async
-        name: B1
-        inputMappings:
-           - target: $.input.path
-             source: $.context.path
-        outputMappings:
-           - target: $.context.path
-             source: $.output.path
-  - condition: $.input.[?(@.status == "failed")]
-    tasks: 
-      - category: function
-        resourceName: protocol://content
-        pattern: task_async
-        name: B2
-        inputMappings:
-           - target: $.input.path
-             source: $.context.path
-        outputMappings:
-           - target: $.context.path
-             source: $.output.path
-next: C
-```
 
 ### foreach
 
