@@ -29,7 +29,8 @@ sidebar_position: 2
 | successConditions | 否   | string  | 定义成功条件，优先级高于 `result_type`，若输出满足所有条件则任务成功，否则失败 |
 | failConditions    | 否   | string  | 定义失败条件，优先级高于 `successConditions`，若输出满足所有条件则任务失败，否则成功 |
 | retry             | 否   | map     | 对于计算类任务，如果执行失败，Rill Flow 将按照该选项配置的策略进行重试，详见[retry](#retry) |
-| inputType         | 否   | string  | 输入类型，值可选为 block 或 stream，默认为 block，详见[inputType](#inputType) |
+| inputType         | 否   | string  | 输入类型，值可选为 block 或 stream，默认为 block，详见[inputType 与 outputType](#inputType 与 outputType) |
+| outputType        | 否   | string  | 输出类型，值可选为 block 或 stream，默认为 block，详见[inputType 与 outputType](#inputType 与 outputType) |
 
 ### category
 
@@ -68,20 +69,15 @@ retry 结构中共有三个选项：
 
 Rill Flow 在计算任务执行失败后，将以上述配置中的策略进行重试。假设当前已经重试过 n 次，那么下一次重试的间隔时间为：`intervalInSeconds*multiplier^n`，最多重试 maxRetryTimes 次。
 
-### inputType
+### inputType 与 outputType
 
-任务的输入类型，可选的值有两种：
+- outputType 任务的输出类型，可选的值有两种：
+    - block（默认值）：阻塞式输出
+    - stream: 流式输出
 
-- block（默认值）：阻塞式输入，只有当任务依赖的所有任务全部运行完成，即全部成功执行或被跳过后，当前任务才会被执行。
-- stream：流式输入，当任务所在的分支路径开始执行时，则任务同时也会被调度执行。
-
-![任务输入类型示意图](./assets/rill-flow-input-type.png)
-
-上图展示了一个包含七个任务的工作流，其中任务 A、B、C、D 的 inputType 为 block，任务 E、G 的 inputType 为 stream，节点 F 为 choice、return、switch、foreach 等类型的分支节点。
-
-当这个工作流被调度执行时，由于任务 D 的输入类型为 block，它必须等待它所依赖的任务 A 与 任务 B 全部执行完成，即全部成功或跳过后，任务 D 才会被执行。但由于任务 E 的输入类型为 stream，它会和任务 A、B、C 一起被调度执行。
-
-由于任务 G 与任务 A、B、C、D、E 五个任务被任务 F 分隔为不同的分支路径，所以尽管任务 G 的 inputType 为 stream，它也只会在 F 执行完成并确定任务 G 所在的分支路径符合条件会被调度执行时，任务 G 才会被调度执行。
+- inputType 任务的输入类型，可选的值有两种：
+    - block（默认值）：阻塞式输入，只有当任务依赖的所有任务全部运行完成，即全部成功执行或被跳过后，当前任务才会被执行。
+    - stream：流式输入，当任务依赖的任何一个流式输出任务准备执行或者任何一个非流式输出任务完成执行时，该任务就会被调度执行。
 
 ## 同步与异步任务模式
 
