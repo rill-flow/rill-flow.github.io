@@ -78,17 +78,15 @@ tasks:
     pattern: task_sync
     tolerance: false
     next: Alice
-    inputMappings:
-      - source: "$.context.Bob"
-        target: "$.input.Bob"
+    input:
+      Bob: $.context.Bob
   - category: function
     name: Alice
     resourceName: http://sample-executor:8000/greet.json?user=Alice
     pattern: task_sync
     tolerance: false
-    inputMappings:
-      - source: "$.context.Alice"
-        target: "$.input.Alice"
+    input:
+      Alice: $.context.Alice
 ```
 ![流程一键导入](assets/create_flow_graph.png)
 ![流程创建完成](assets/create_flow_graph_finish.png)

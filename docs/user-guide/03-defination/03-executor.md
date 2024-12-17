@@ -27,10 +27,10 @@ Rill Flow 使用执行器（Executor）的概念，实现了任务流程编排�
 | request_header_* | map    | 请求头，以 `request_header_` 前缀的键对应的值需为 map 类型，所有键/值将加入请求头                      |
 | 其余键              | string | POST 请求体参数，目前仅支持 json 类型，其余键/值将加入 POST 请求体的 json 结构中                   |
 
-调用执行器之前，Rill Flow 的派发器会根据 [inputMappings](/docs/user-guide/defination/context-and-mapping#参数映射) 属性定义的映射规则准备执行器的调用参数。将 `context` 中的参数映射函数的输入。
+调用执行器之前，Rill Flow 的派发器会根据 [input](/docs/user-guide/defination/context-and-mapping#参数映射) 或者 [inputMappings](/docs/user-guide/defination/context-and-mapping#参数映射) 属性定义的映射规则准备执行器的调用参数。将 `context` 中的参数映射函数的输入。
 
 ### 输出
-执行器执行完成之后，输出结果为 json 类型(目前仅支持 json 类型)，Rill Flow 通过 [outputMappings](/docs/user-guide/defination/context-and-mapping#参数映射) 属性定义的映射规则，将执行器的运行结果映射回工作流的上下文，便于后续任务获取。
+执行器执行完成之后，输出结果为 json 类型(目前仅支持 json 类型)，Rill Flow 通过其他任务配置的 [input](/docs/user-guide/defination/context-and-mapping#参数映射) 中所需要的属性或 [outputMappings](/docs/user-guide/defination/context-and-mapping#参数映射) 属性定义的映射规则，将执行器的运行结果映射回工作流的上下文，便于后续任务获取。
 
 > 有关上下文和映射规则的更多信息，请参阅[上下文与映射](context-and-mapping)。
 
