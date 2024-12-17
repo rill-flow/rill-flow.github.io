@@ -21,6 +21,7 @@ Rill Flow 支持三种参数映射规则：
 - `inputMapping`：输入参数映射，将上下文变量映射到任务节点的输入参数。
 - `outputMapping`：输出参数映射，将任务节点的执行结果映射回上下文，供后续任务使用。
 - `commonMapping`：公共参数映射，可通过 `reference` 属性引用，实现参数映射的复用。
+- `input`：输入参数映射，将指定的任务输出或常量映射到任务节点的输入参数，并自动生成指定任务的输出映射。
 
 ![参数映射示意图](assets/context_mapping.svg)
 
@@ -98,4 +99,72 @@ tasks:
     outputMappings:
       - source: $.output.segments
         target: $.context.segments
+```
+
+## 参数映射的自动生成
+
+出于简化配置的目的，可以通过 `input` 配置替代 inputMappings 与 outputMappings 配置。`input` 的具体配置方式为：
+
+```yaml
+type: flow
+dagName: sample_dag
+tasks:
+  - name: taskA
+  - name: taskB
+    input:
+      body.hello: "world"
+      query.file_id: $.taskA.file_id
+output:
+  file_info: $.taskB.file_info
+```
+
+如上例所示，`taskB` 配置了 `input` 属性，并且 DAG 图配置了 `output` 属性，来定义任务的输入目标与参数来源。
+
+### input
+
+`input` 配置是一个 map 类型的配置，它的 key 说明了输出参数的目标位置，value 则用来标识参数输入的来源，如果 value 不以 `$.` 开头，那么这是一个静态属性，否则，`$.` 与下一个 `.` 之间的内容则是数据来源任务的任务名称，rill-flow 会根据该配置生成当前任务的输入映射与数据来源任务的输出映射。
+
+例如，上述示例中，rill-flow 会根据用户配置的 `input` 属性生成如下配置：
+
+```yaml
+type: flow
+dagName: sample_dag
+tasks:
+  - name: taskA
+    outputMappings:
+      - source: $.output.file_id
+        target: $.context.taskA.file_id
+  - name: taskB
+    inputMappings:
+      - source: world
+        target: $.input.body.hello
+      - source: $.context.taskA.file_id
+        target: $.input.query.file_id
+output:
+  result.file_info: $.taskB.file_info
+```
+
+### output
+
+与任务的配置属性 `input` 相同，DAG 图的 `output` 配置属性也是一个 map 类型的配置，它的 key 同样是参数的输出目标，对应与 context 中的属性位置，value 则是该数据的来源，它的规则与 `input` 参数的 value 值的规则一致。通过 DAG 图的 `output` 参数，rill-flow 会为数据来源的任务自动生成输出映射。
+
+例如，上述示例中，根据 `output` 参数，rill-flow 会生成如下配置：
+
+```yaml
+type: flow
+dagName: sample_dag
+tasks:
+  - name: taskA
+    outputMappings:
+      - source: $.output.file_id
+        target: $.context.taskA.file_id
+  - name: taskB
+    inputMappings:
+      - source: world
+        target: $.input.body.hello
+      - source: $.context.taskA.file_id
+        target: $.input.query.file_id
+    outputMappings:
+      - source: $.output.file_info
+        target: $.context.result.file_info
 ```

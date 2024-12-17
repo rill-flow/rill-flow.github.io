@@ -59,15 +59,14 @@ OpenFaas gateway 的 `namespace`、`service` 和 `port` 可以通过查看 [Open
 
 ### 将回调地址作为任务参数
 
-如果想要将上述回调接口及某个任务对应的参数作为某个任务节点的传入参数，可以在对应的任务节点的 inputMappings 中增加相应的映射：
+如果想要将上述回调接口及某个任务对应的参数作为某个任务节点的传入参数，可以在对应的任务节点的 input 中增加相应的映射：
 
 ```yaml
-inputMappings:
-    - target: $.input.data.trigger_url
-      source: $.tasks.task1.trigger_url
+input:
+    data.trigger_url: $.tasks.task1.trigger_url
 ```
 
-在该工作流的执行中，Rill Flow 就会在配置有该 inputMappings 的任务执行时，将任务名为 task1 对应的回调地址作为参数中 input\["data"]\["trigger_url"] 的值传递给该任务。
+在该工作流的执行中，Rill Flow 就会在配置有该 input 的任务执行时，将任务名为 task1 对应的回调地址作为参数中 input\["data"]\["trigger_url"] 的值传递给该任务。
 
 这个参数的默认值为：
 
@@ -76,9 +75,8 @@ inputMappings:
 如果你需要在该任务接收到的 trigger_url 中额外添加某些参数，可以通过在 trigger_url 后面添加 ? 来将参数以 key1=value1&key2=value2 的方式添加到 trigger_url 中：
 
 ```yaml
-inputMappings:
-    - target: $.input.data.trigger_url
-      source: $.tasks.task1.trigger_url?context=%7B%22key%22%3A%20%22value%22%7D
+input:
+    data.trigger_url: $.tasks.task1.trigger_url?context=%7B%22key%22%3A%20%22value%22%7D
 ```
 
 这样，最终生成的 trigger_url 就会变为：

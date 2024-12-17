@@ -22,13 +22,16 @@ sidebar_position: 2
 | resourceProtocol  | 否   | string  | 指定派发器资源协议，若为空，则使用 `resourceName` 解析的协议。`resourceProtocol` 与 `resourceName` 不能同时为空 |
 | resourceName      | 否   | string  | 资源描述符，详见[派发器](#派发器)                            |
 | next              | 否   | string  | 下一个任务的名称                                             |
-| inputMappings     | 否   | map     | 输入映射，详见[参数映射](context-and-mapping)                |
-| parameters        | 否   | map     | 任务输入的默认值，若 `inputMapping` 与 `parameters` 同时定义了同一键，则以 `inputMappings` 为准 |
-| outputMappings    | 否   | map     | 输出映射，详见[参数映射](context-and-mapping)                |
+| inputMappings     | 否   | list    | 输入映射，详见[参数映射](context-and-mapping)                |
+| input             | 否   | map     | 输入映射，详见[参数映射](context-and-mapping)                |
+| parameters        | 否   | map     | 任务输入的默认值，若 `inputMapping` 与 `input` 或 `parameters` 同时定义了同一键，则以 `inputMappings` 为准 |
+| outputMappings    | 否   | list    | 输出映射，详见[参数映射](context-and-mapping)                |
 | tolerance         | 否   | boolean | 任务失败时是否忽略并继续执行                                 |
 | successConditions | 否   | string  | 定义成功条件，优先级高于 `result_type`，若输出满足所有条件则任务成功，否则失败 |
 | failConditions    | 否   | string  | 定义失败条件，优先级高于 `successConditions`，若输出满足所有条件则任务失败，否则成功 |
 | retry             | 否   | map     | 对于计算类任务，如果执行失败，Rill Flow 将按照该选项配置的策略进行重试，详见[retry](#retry) |
+| inputType         | 否   | string  | 输入类型，值可选为 block 或 stream，默认为 block，详见[inputType与outputType](#inputType与outputType) |
+| outputType        | 否   | string  | 输出类型，值可选为 block 或 stream，默认为 block，详见[inputType与outputType](#inputType与outputType) |
 
 ### category
 
@@ -66,6 +69,16 @@ retry 结构中共有三个选项：
 - multiplier：重试间隔放大引子，默认值为 1，即：不放大。
 
 Rill Flow 在计算任务执行失败后，将以上述配置中的策略进行重试。假设当前已经重试过 n 次，那么下一次重试的间隔时间为：`intervalInSeconds*multiplier^n`，最多重试 maxRetryTimes 次。
+
+### inputType与outputType
+
+- outputType 任务的输出类型，可选的值有两种：
+    - block（默认值）：阻塞式输出
+    - stream: 流式输出
+
+- inputType 任务的输入类型，可选的值有两种：
+    - block（默认值）：阻塞式输入，只有当任务依赖的所有任务全部运行完成，即全部成功执行或被跳过后，当前任务才会被调度执行或跳过，否则一直处于 NOT_STARTED 状态等待调度。
+    - stream：流式输入，当任务依赖的任何一个流式输出任务准备执行或者任何一个非流式输出任务完成执行时，该任务就会被调度执行。
 
 ## 同步与异步任务模式
 
