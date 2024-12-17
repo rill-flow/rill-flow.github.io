@@ -30,8 +30,8 @@ sidebar_position: 2
 | successConditions | 否   | string  | 定义成功条件，优先级高于 `result_type`，若输出满足所有条件则任务成功，否则失败 |
 | failConditions    | 否   | string  | 定义失败条件，优先级高于 `successConditions`，若输出满足所有条件则任务失败，否则成功 |
 | retry             | 否   | map     | 对于计算类任务，如果执行失败，Rill Flow 将按照该选项配置的策略进行重试，详见[retry](#retry) |
-| inputType         | 否   | string  | 输入类型，值可选为 block 或 stream，默认为 block，详见[inputType 与 outputType](#inputType 与 outputType) |
-| outputType        | 否   | string  | 输出类型，值可选为 block 或 stream，默认为 block，详见[inputType 与 outputType](#inputType 与 outputType) |
+| inputType         | 否   | string  | 输入类型，值可选为 block 或 stream，默认为 block，详见[inputType与outputType](#inputType与outputType) |
+| outputType        | 否   | string  | 输出类型，值可选为 block 或 stream，默认为 block，详见[inputType与outputType](#inputType与outputType) |
 
 ### category
 
@@ -70,7 +70,7 @@ retry 结构中共有三个选项：
 
 Rill Flow 在计算任务执行失败后，将以上述配置中的策略进行重试。假设当前已经重试过 n 次，那么下一次重试的间隔时间为：`intervalInSeconds*multiplier^n`，最多重试 maxRetryTimes 次。
 
-### inputType 与 outputType
+### inputType与outputType
 
 - outputType 任务的输出类型，可选的值有两种：
     - block（默认值）：阻塞式输出
